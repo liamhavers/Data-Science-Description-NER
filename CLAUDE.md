@@ -15,32 +15,39 @@ clarity and easy iteration (notebooks, small scripts) over heavy engineering.
 
 ## Current stage
 
-Scaffolding only — no code yet. Treat early requests as "help me stand this up," not
-"extend the existing pipeline." Key open decisions (ask the user if a task depends on
-one and it's not yet settled; update this file once decided):
+Data ingestion (`src/ingest.py`) and a first spaCy NER pass (`src/ner_spacy.py` +
+`src/skills_taxonomy.py`) are built and verified working. Key decisions:
 
 - **Data source (decided)**: Kaggle's [`asaniczka/data-science-job-postings-and-skills`]
   (https://www.kaggle.com/datasets/asaniczka/data-science-job-postings-and-skills),
-  downloaded via `kagglehub`. Use `job_summary.csv` (raw description text) as the NER
-  input. `job_skills.csv` holds the author's own pre-extracted skills — treat it as an
-  optional comparison baseline, not ground truth, since building the extraction
-  ourselves is the point of the project. Fallback if row count after cleaning proves
-  too small: `arshkon/linkedin-job-postings` (~124k rows, all roles, filter by title).
-- **NER approach**: spaCy custom/fine-tuned pipeline vs. fine-tuned transformer
-  (token classification) vs. LLM prompt-based extraction (e.g. Claude). These may be
-  built side by side for comparison rather than choosing one exclusively.
-- **Skills taxonomy**: whether entities get normalized against a canonical list (so
-  "AWS" / "Amazon Web Services" / "amazon-web-services" collapse to one entity) and
-  where that taxonomy comes from (hand-curated vs. derived from the data).
+  downloaded via `kagglehub`. Credentials live at `~/.kaggle/access_token` (Kaggle's
+  newer single-token format, not the legacy `kaggle.json`). Use `job_summary.csv` (raw
+  description text) as the NER input. `job_skills.csv` holds the author's own
+  pre-extracted skills — treat it as an optional comparison baseline, not ground truth.
+  Fallback if row count after cleaning proves too small: `arshkon/linkedin-job-postings`
+  (~124k rows, all roles, filter by title).
+- **NER approach (v1 decided, more to come)**: started with a rule-based spaCy
+  `EntityRuler` (`src/ner_spacy.py`) seeded by a hand-curated gazetteer
+  (`src/skills_taxonomy.py`) — no training data needed, immediately runnable, results
+  verified sane (SQL/Python/AWS top the ranking, A/B Testing ~3%). This is a bootstrap,
+  not the final word: a trained statistical NER component (spaCy or transformer) and
+  an LLM-based extraction pass (per README) are still planned, to be compared against
+  this baseline on the same posting set.
+- **Skills taxonomy (v1 decided)**: hand-curated in `src/skills_taxonomy.py` as
+  `(canonical_name, category, [surface forms])` tuples — category becomes the spaCy
+  entity label, canonical_name is looked up via `ent.ent_id_` so spelling variants
+  collapse to one skill. Deliberately *not* harvested from `job_skills.csv` — that
+  file's terms are often too generic (e.g. "Programming", "Optimization") for the
+  actionable, specific-tool signal the user wants. Expand this file directly when a
+  new skill/tool needs tracking; keep one skill's variants together in one tuple.
 
 ## Conventions
 
-- Python-first project (matches the parent `pythonProjects` workspace).
-- No package manager / dependency file exists yet — when the first real code is
-  added, set one up (e.g. `pyproject.toml` or `requirements.txt`) rather than
-  installing ad hoc.
-- Keep raw scraped/downloaded data out of git if it's large or has redistribution
-  restrictions (add a `.gitignore` for `data/raw/` when data work starts).
+- Python-first project (matches the parent `pythonProjects` workspace). Dependencies
+  in `requirements.txt`, installed into a project-local `.venv` (gitignored) — run
+  scripts via `.venv/bin/python`, not a system/global interpreter.
+- `data/` (raw downloads + `data/processed/`) is gitignored — it's fully
+  regenerable via `src/ingest.py` and shouldn't be committed.
 - Prefer small, inspectable scripts/notebooks over a large framework — this is an
   analysis project, and results (which skills are in demand) matter more than
   pipeline sophistication.

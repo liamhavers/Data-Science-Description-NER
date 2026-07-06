@@ -1,0 +1,43 @@
+skill,postings_mentioning,pct_of_postings
+SQL,5199,42.6
+Python,4836,39.6
+Machine Learning,2695,22.1
+AWS,2687,22.0
+Azure,2048,16.8
+Excel,1934,15.8
+Spark,1926,15.8
+Statistics,1880,15.4
+ETL,1879,15.4
+Tableau,1672,13.7
+Power BI,1532,12.5
+Java,1435,11.7
+GCP,1358,11.1
+Snowflake,1264,10.3
+Data Visualization,1242,10.2
+Scala,1085,8.9
+Hadoop,972,8.0
+NoSQL,913,7.5
+TensorFlow,727,6.0
+Redshift,707,5.8
+Deep Learning,705,5.8
+MySQL,615,5.0
+MongoDB,614,5.0
+PyTorch,603,4.9
+Kubernetes,564,4.6
+Airflow,563,4.6
+NLP,534,4.4
+PostgreSQL,504,4.1
+Docker,498,4.1
+Git,413,3.4
+A/B Testing,364,3.0
+C++,361,3.0
+scikit-learn,333,2.7
+Pandas,328,2.7
+NumPy,260,2.1
+Computer Vision,222,1.8
+Jupyter,169,1.4
+BigQuery,160,1.3
+Time Series,144,1.2
+Keras,103,0.8
+XGBoost,56,0.5
+Julia,19,0.2
