@@ -1,4 +1,6 @@
 .venv
 .kaggle
 data/
+models/
 __pycache__/
+.claude/

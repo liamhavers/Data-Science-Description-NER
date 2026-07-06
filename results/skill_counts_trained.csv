@@ -5,7 +5,7 @@ Machine Learning,2695,22.1
 AWS,2683,22.0
 Agile,2547,20.8
 Azure,2048,16.8
-Excel,1934,15.8
+Excel,1932,15.8
 Spark,1926,15.8
 Statistics,1880,15.4
 ETL,1879,15.4
@@ -17,27 +17,27 @@ Java,1435,11.7
 Data Modeling,1391,11.4
 Data Pipelines,1382,11.3
 GCP,1358,11.1
-Snowflake,1264,10.3
+Snowflake,1263,10.3
 Data Visualization,1242,10.2
-Linux,1093,8.9
+Linux,1092,8.9
 Scala,1085,8.9
 Data Governance,1011,8.3
-Business Intelligence,1005,8.2
+Business Intelligence,994,8.1
 Hadoop,972,8.0
 SQL Server,921,7.5
 NoSQL,913,7.5
 Kafka,861,7.0
 Oracle,852,7.0
-Databricks,765,6.3
-CI/CD,756,6.2
+Databricks,764,6.3
+CI/CD,749,6.1
 TensorFlow,727,6.0
 Redshift,707,5.8
 Deep Learning,705,5.8
 Classification,685,5.6
 Hive,671,5.5
 DevOps,669,5.5
-MySQL,615,5.0
 MongoDB,614,5.0
+MySQL,614,5.0
 PyTorch,603,4.9
 Kubernetes,564,4.6
 Airflow,563,4.6
@@ -52,17 +52,17 @@ SAS,476,3.9
 Cassandra,437,3.6
 Git,413,3.4
 SAP,402,3.3
-Scrum,397,3.2
+Scrum,396,3.2
 MapReduce,391,3.2
-A/B Testing,378,3.1
+A/B Testing,362,3.0
 C++,361,3.0
 Regression,341,2.8
 scikit-learn,333,2.7
 Pandas,328,2.7
 Gurobi,326,2.7
 NumPy,260,2.1
-Computer Vision,227,1.9
 dbt,224,1.8
+Computer Vision,222,1.8
 MLflow,222,1.8
 Clustering,221,1.8
 Hypothesis Testing,219,1.8
@@ -88,10 +88,10 @@ Matplotlib,62,0.5
 XGBoost,56,0.5
 Seaborn,31,0.3
 Plotly,28,0.2
-R,24,0.2
 NLTK,20,0.2
 Julia,19,0.2
-Vertex AI,19,0.2
+Vertex AI,18,0.1
 OpenCV,17,0.1
+R,15,0.1
 LightGBM,7,0.1
 statsmodels,1,0.0

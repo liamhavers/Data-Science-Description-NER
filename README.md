@@ -45,27 +45,42 @@ print("Path to dataset files:", path)
 
 Two NER strategies are supported, and can be compared against each other:
 
-1. **Traditional ML NER (implemented, v1)** — a spaCy `EntityRuler` seeded with a
-   hand-curated skills taxonomy (`src/skills_taxonomy.py`), run over each posting's
-   raw `job_summary` text independently of the dataset's own `job_skills.csv`. Rule-based
-   rather than trained for now; the extracted spans double as a bootstrap for training
-   a statistical spaCy/transformer NER component later if the gazetteer proves too
-   narrow.
+1. **Traditional ML NER (implemented)** — two stages, both in spaCy:
+   - **Rule-based (`src/ner_spacy.py`)**: an `EntityRuler` seeded with a hand-curated
+     skills taxonomy (`src/skills_taxonomy.py`, ~90 skills across LANGUAGE, CLOUD,
+     DATABASE, LIBRARY, TOOL, METHOD — expanded using frequency counts from the
+     dataset's own `job_skills.csv` column as an empirical guide, filtering out generic
+     terms like "Communication"). This is the primary, trusted ranking.
+   - **Statistical (`src/train_ner.py` / `src/ner_spacy_trained.py`)**: a trained spaCy
+     `ner` component, bootstrapped from the rule-based pass applied sentence-by-sentence
+     (weak supervision — no hand-labeling). Dev-set F1 came back ~0.998, but that number
+     is measuring agreement with its own teacher labels, not true generalization, since
+     train and dev were both weak-labeled by the same rule-based ruler. A follow-up scan
+     of the model's "novel" spans (things it flagged that aren't in the taxonomy at all)
+     confirmed this: a handful of genuinely new phrasings turned up (`a/b tests`,
+     `ci / cd`, `machine vision` — since folded into the taxonomy) alongside a lot of
+     noise (`jacks`, `probe`, `conceptualize`, `solicit`). **Current verdict: useful as a
+     taxonomy-expansion discovery tool, not yet reliable as a standalone open-vocabulary
+     extractor** — it'd need more diverse training data (full documents, not just
+     sentences; harder negatives) to trust unsupervised.
 2. **LLM-based extraction (planned)** — prompting an LLM (e.g. Claude) to pull
    structured skill/tool entities out of raw job description text, optionally
    normalizing them against the same canonical skills taxonomy for comparison against
    the spaCy results.
 
-### Running the spaCy pipeline
+### Running the pipeline
 
 ```bash
-.venv/bin/python src/ingest.py      # download + join the dataset -> data/processed/job_postings.csv
-.venv/bin/python src/ner_spacy.py   # extract skills -> results/skill_counts.csv, results/job_skills_extracted.csv
+.venv/bin/python src/ingest.py            # download + join the dataset -> data/processed/job_postings.csv
+.venv/bin/python src/ner_spacy.py          # rule-based extraction -> results/skill_counts.csv, results/job_skills_extracted.csv
+.venv/bin/python src/train_ner.py          # train statistical model on weak labels -> models/spacy_ner/
+.venv/bin/python src/ner_spacy_trained.py  # run trained model -> results/skill_counts_trained.csv, results/novel_skill_candidates.csv
 ```
 
-`results/skill_counts.csv` is the ranked demand signal (skill, # postings mentioning it,
-% of postings). `results/job_skills_extracted.csv` is the per-posting extraction,
-kept for later analysis (trends by seniority, co-occurrence, etc.).
+`results/skill_counts.csv` (rule-based) is the trusted ranked demand signal (skill, #
+postings mentioning it, % of postings) — use this one for project-selection decisions
+today. `results/novel_skill_candidates.csv` is worth periodically skimming by hand to
+find real terms worth adding to the taxonomy.
 
 ## Pipeline (planned)
 
@@ -90,17 +105,21 @@ raw job postings (scraped / dataset)
 
 ## Status
 
-Data ingestion and a first (rule-based) spaCy NER pass are working end-to-end. Still
-open: LLM-based extraction, entity normalization beyond the taxonomy's own id-grouping,
-and trend/co-occurrence analysis (see `CLAUDE.md` for current open questions).
+Data ingestion, rule-based spaCy NER, and a first statistical spaCy NER pass are all
+working end-to-end (see the caveats on the statistical model above). Still open:
+LLM-based extraction, entity normalization beyond the taxonomy's own id-grouping, and
+trend/co-occurrence analysis (see `CLAUDE.md` for current open questions).
 
 ## Project layout
 
 ```
 data/processed/ joined job postings (gitignored; regenerate with src/ingest.py)
-src/            pipeline code
-  ingest.py           download dataset via kagglehub, join the 3 CSVs
-  skills_taxonomy.py  hand-curated skill/tool gazetteer used by ner_spacy.py
-  ner_spacy.py        spaCy EntityRuler NER pass -> results/
-results/        skill demand rankings, per-posting extractions
+models/          trained statistical NER model (gitignored; regenerate with src/train_ner.py)
+src/             pipeline code
+  ingest.py             download dataset via kagglehub, join the 3 CSVs
+  skills_taxonomy.py    hand-curated skill/tool gazetteer
+  ner_spacy.py          rule-based EntityRuler NER pass -> results/
+  train_ner.py          bootstraps weak labels from ner_spacy.py, trains models/spacy_ner/
+  ner_spacy_trained.py  runs the trained model -> results/ (known + novel skill spans)
+results/         skill demand rankings, per-posting extractions, novel skill candidates
 ```
