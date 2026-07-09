@@ -6,6 +6,16 @@ demand shifts quickly, tracks **how it's changing over time** — to guide what 
 build/learn next (e.g. "is A/B testing more in-demand than AWS right now, and is
 either one rising or falling?").
 
+This is an **ongoing project, not a one-off report**: a weekly cron job keeps
+pulling fresh postings and re-computing the trend on its own (see "Using this to
+pick a project" below), so whenever it's time to start something new, an up-to-date
+answer is already sitting in `results/` rather than needing a fresh analysis run.
+
+![Recent-data skill demand trend, month over month](results/skill_trend_recent_by_month.png)
+
+*Regenerated weekly by cron (`scripts/run_weekly.sh`) — the copy above is only as
+fresh as the last time this was manually committed and pushed; see Status.*
+
 ## Goal
 
 This started as a one-off question: extract skill/tool/technology entities from a job
@@ -27,6 +37,27 @@ That means two different questions, answered by two different pipelines:
 - **"Is it rising or falling?"** — an actively-refreshed recent-data corpus, extracted
   with the same rule-based method and aggregated by month. Output:
   `results/skill_trend_recent_by_month.csv`.
+
+## Using this to pick a project
+
+This is meant to be **checked, not run** — the point of automating it (see Status
+below) is that the next-project decision doesn't have to wait for a fresh analysis.
+When it's time to consider a new one:
+
+1. **What's in demand right now** — `results/skill_counts.csv` (rule-based, trusted)
+   or `results/skill_counts_combined.csv` for the cross-method view, which also flags
+   which "in-demand" terms are boilerplate-keyword inflation vs. a genuine focus.
+2. **Which direction it's heading** — `results/skill_trend_recent_by_month.png`.
+   A skill can rank high in (1) and still be flat or declining; this is what
+   catches that.
+3. **What it pairs with** — `results/skill_cooccurrence.csv`, if a skill is rarely
+   worth building toward in isolation (e.g. AWS shows up alongside Python/SQL/Spark
+   far more often than alone) and a combined project makes more sense.
+
+No need to re-run anything for a routine check-in — `scripts/run_weekly.sh` already
+keeps all three current. Only step in manually if the data looks stale (check
+`logs/weekly_pipeline.log`) or a new skill needs adding to the taxonomy first (see
+CLAUDE.md).
 
 ## Approach
 
@@ -195,12 +226,22 @@ snapshot corpus (one scrape)         recent corpus (Kaggle base + live Adzuna pu
 All three extraction methods (rule-based spaCy, statistical spaCy, local-LLM via
 Ollama) are working end-to-end and cross-compared on the snapshot corpus, with a
 combined ranking and co-occurrence view on top. The recent-data trend pipeline is
-live and automated: `scripts/run_weekly.sh` (fetch → re-aggregate → re-plot) runs
-every Monday via cron, extending `results/skill_trend_recent_by_month.csv` and its
-chart forward on their own — no manual step required going forward. Open items:
-entity normalization beyond the taxonomy's own id-grouping, and — once the trend
-pipeline has accumulated enough live data to be worth consulting — actually picking
-the next personal project (see `CLAUDE.md` for the full project timeline).
+live and self-sustaining *locally*: `scripts/run_weekly.sh` (fetch → re-aggregate →
+re-plot) runs every Monday via cron with no manual step required, so the files in
+`results/` stay current on their own. That's the intended end state, not a step
+toward one — this project doesn't conclude with a single "here's the answer" report;
+it keeps answering the question for as long as it keeps running, ready to be checked
+whenever the next project decision comes up.
+
+Deliberately **not** automated: pushing those refreshed results (including the chart
+embedded above) to GitHub. Cron could run `git commit && git push` too, but that
+means unattended, recurring write access to a public repo — a bigger authorization
+than "regenerate a local file," so a run is committed and pushed by hand after a
+check-in rather than automatically. That means the chart above is only as fresh as
+the last manual push, not necessarily today.
+
+The one open item outside that loop is entity normalization beyond the taxonomy's
+own id-grouping (see `CLAUDE.md` for the full project timeline).
 
 ## Project layout
 

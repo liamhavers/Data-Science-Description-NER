@@ -190,6 +190,17 @@ Key decisions:
     additions to the chart look generic again, extend this set rather than
     increasing TOP_N_SKILLS** — more of the same umbrella terms isn't more
     signal.
+  - **The trend chart is now embedded in README.md**, but publishing it to GitHub
+    is deliberately **not** part of the automation. User's explicit choice between
+    (1) cron also commits+pushes weekly, fully hands-off, vs. (2) cron only
+    regenerates the local file, user pushes manually after a check-in: chose
+    (2), because (1) means unattended, recurring write access to a public repo,
+    a meaningfully bigger authorization than "regenerate a local file" — flagged
+    this distinction before building anything, per the git-safety norm of not
+    auto-pushing without explicit sign-off, and per-repo sign-off doesn't cover
+    an indefinite recurring push. **Consequence: the chart in README.md is only
+    as fresh as the last manual `git push`, not as fresh as `results/` locally**
+    — don't assume they're in sync when reading the repo from GitHub's side.
 
 ## Project timeline (rough outline)
 
