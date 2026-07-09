@@ -15,8 +15,9 @@ clarity and easy iteration (notebooks, small scripts) over heavy engineering.
 
 ## Current stage
 
-Data ingestion, rule-based spaCy NER, and a first statistical spaCy NER model are all
-built and verified working. Key decisions:
+Data ingestion and all three NER approaches (rule-based spaCy, statistical spaCy,
+local-LLM via Ollama) are built, verified working, and compared on the full corpus.
+Key decisions:
 
 - **Data source (decided)**: Kaggle's [`asaniczka/data-science-job-postings-and-skills`]
   (https://www.kaggle.com/datasets/asaniczka/data-science-job-postings-and-skills),
@@ -42,8 +43,29 @@ built and verified working. Key decisions:
     don't treat its "novel" bucket as ready to use unfiltered — it needs human review
     per term. It's a discovery aid for expanding the taxonomy, not yet a trustworthy
     standalone extractor.
-  - An LLM-based extraction pass (per README) is still planned, to be compared against
-    both of the above on the same posting set.
+  - LLM-based extraction (`src/llm_extract.py` / `src/llm_aggregate.py`): a local
+    `qwen2.5:7b-instruct` model via Ollama, running on-GPU rather than a paid API —
+    free and unlimited for this ~12k-posting volume, versus rate-limited free-tier
+    cloud APIs or real cost on paid ones. Prompted to return `(skill, category)` pairs
+    directly, no gazetteer involved. Had to be made self-healing: a 10+ hour
+    unattended run outlasted both a sleeping host machine and a resource-constrained
+    WSL2 VM (`.wslconfig` capped at 2GB/2 cores at the time), each of which silently
+    killed the Ollama server mid-run and caused the naive first version to record
+    "connection failed" as if it were a real per-posting result for ~12k postings in a
+    row. Fixed by retrying with backoff (including relaunching the server itself) on a
+    dropped connection instead of writing a result for it — see the module docstring.
+    Full-corpus result: strong agreement with the rule-based ranking on named
+    tools/languages/platforms (A/B Testing 3.1% vs. 3.3%, PyTorch 4.9% vs. 4.7%), but
+    the LLM reports broad methodology/concept terms (Machine Learning, Agile, ETL) at
+    roughly 5-10x lower rates than the rule-based ruler. This isn't the LLM being
+    wrong — the ruler fires on every literal keyword occurrence including boilerplate
+    ("familiarity with agile methodologies a plus"), while the LLM appears to only
+    report a broad concept when it's a substantive focus. **Use the LLM numbers for
+    "how often is this a real focus"; use the rule-based numbers for "how often is
+    this word present."** They're answering different questions, not disagreeing.
+    Novel bucket surfaced bare `r` at 1,427 mentions — confirms the single-letter
+    ambiguity concern that made us exclude it from the taxonomy's rule-based
+    surfaces, but the LLM disambiguates it fine via context.
 - **Skills taxonomy (~90 entries, still growing)**: hand-curated in
   `src/skills_taxonomy.py` as `(canonical_name, category, [surface forms])` tuples —
   category becomes the spaCy entity label, canonical_name is looked up via

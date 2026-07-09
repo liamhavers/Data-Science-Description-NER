@@ -1,0 +1,301 @@
+candidate_skill,postings_mentioning
+r,1427
+project management,293
+agile engineering practices,253
+data analysis,243
+azure data factory,180
+jenkins,165
+open source rdbms and nosql databases,156
+informatica,149
+shell scripting,147
+javascript,142
+c#,141
+ml ops + engineering,136
+data engineering/etl pipeline experience,136
+experimentation + a/b testing,136
+t-sql,132
+spss,128
+data science,119
+powerpoint,118
+pl/sql,117
+json,116
+nosql databases,114
+bash,111
+torch,111
+data management,110
+powershell,109
+lambda,108
+dask,107
+ssis,106
+symantec data loss prevention (dlp) infrastructure engineering,105
+"interest in llms, nlp, reinforcement learning, probabilistic graphs, deep learning",104
+wandb,103
+artificial intelligence,103
+azure devops,103
+numba,102
+amazon web services (aws),99
+microsoft office,98
+sharepoint,98
+azure databricks,96
+confluence,95
+"workflow orchestration, monitoring + visibility",94
+go,91
+ms excel,91
+agile delivery model,89
+jira experience,87
+generative ai,86
+gcp (google cloud platform),85
+golang,85
+data engineering,84
+salesforce,84
+aws redshift,83
+machine learning (ml),82
+aws glue,82
+word,81
+c/c++,80
+data analytics,80
+microsoft office suite,80
+analytical skills,78
+teradata,77
+ssrs,76
+storm,75
+public cloud security and multi-cloud environments,75
+it delivery projects and technical writing,74
+db2,72
+talend,71
+google analytics,71
+sparql,70
+glue,70
+etl processes,69
+agile methodologies,68
+avro,67
+vba,67
+natural language processing (nlp),66
+microsoft word,66
+dynamodb,66
+epic clarity,65
+spark-streaming,65
+stata,65
+data profiling,64
+dimensional data modeling,64
+google cloud platform (gcp),64
+synapse,64
+delta lake,64
+data quality,64
+neptune,63
+access,63
+metadata management,63
+risk management,62
+aws s3,62
+data.world,62
+critical thinking,62
+python3,62
+xml,62
+poolparty,61
+topquadrant,61
+anzograph,61
+stardog,61
+random forest,61
+etl tools,60
+ms office,60
+change management,59
+protégé,59
+openapi/yaml,59
+ms access,59
+azure data lake,59
+statistical modeling,59
+visio,58
+distributed systems,58
+helm,57
+tdd (test-driven development),57
+dbt (data build tool),57
+data entry,57
+microstrategy,56
+azure synapse,56
+"etl (extract, transform, load)",56
+react,56
+aws rds,56
+data architecture,55
+artificial intelligence (ai),55
+machine learning models,54
+perl,54
+athena,54
+stream-processing systems,53
+schema design in data warehouses,53
+attention to detail,53
+kubeflow,53
+flink,52
+master data management (mdm),51
+leadership,51
+microsoft access,51
+ci/cd pipelines,51
+master data management,51
+cognos,51
+nlp (natural language processing),51
+kinesis,50
+data visualization tools,50
+firewalls,49
+erwin,49
+aws lambda,48
+microservices,48
+azure sql,48
+relational databases,48
+logistic regression,48
+data cleansing,47
+microsoft power bi,47
+r (programming language),47
+angular js,47
+ruby,47
+splunk,46
+device drivers,46
+construction management,46
+collibra,45
+cloud-based systems,45
+open-source data platforms,45
+embedded operating systems,45
+low level platform bring-up,45
+efficient protocols for secure data transfer,45
+mlops,44
+unix shell scripting,44
+problem solving,43
+hbase,43
+data integration,43
+aws (amazon web services),43
+ec2,43
+workflow orchestration,43
+grafana,42
+c,42
+causal inference,42
+monitoring + visibility,42
+presto,41
+servicenow,41
+ssis (sql server integration services),40
+nifi,40
+responsible and explainable ai,40
+communication skills,40
+datastage,40
+rds,40
+flask,40
+san fabric switches,40
+kvm units,40
+network switches,40
+wan optimization devices,40
+routers,40
+arcgis,39
+stored procedures,39
+rdbms,39
+database administration,39
+django,39
+data lake,38
+"url filtering, proxy, or network dlp",38
+apis,38
+impala,38
+azure synapse analytics,38
+epic clarity data model certification,37
+root cause analysis,37
+data lakes,37
+autocad,37
+big query,37
+epic revenue cycle certification,36
+certified health data analyst (chda) certification,36
+communication,36
+vendor management,36
+qlikview,36
+azure data factory (adf),36
+problem-solving,35
+advanced excel,35
+bi tools,35
+html,35
+data security,35
+performance tuning,35
+outlook,35
+aws sagemaker,35
+ms sql server,35
+business objects,35
+dax,34
+sqs,34
+sql developer,34
+predictive modeling,34
+gdpr,34
+graph databases,33
+dashboards,33
+fivetran,33
+.net,33
+ssrs (sql server reporting services),32
+windows,32
+technical writing,32
+predictive analytics,32
+kotlin,32
+quality control,32
+"llms, nlp, reinforcement learning, probabilistic graphs, deep learning",32
+six sigma,31
+organizational skills,31
+jupyter notebook,31
+azure sql database,31
+aws services,31
+typescript,31
+scipy,31
+alation,30
+matillion,30
+"aws cloud practitioner, aws solution architect - associate, aws developer - associate, aws security - specialty, or aws solution architect - professional certifications",30
+agile development methods and tools,30
+epic clinical data model,30
+neural networks,30
+neo4j,30
+power automate,30
+dagster,30
+reinforcement learning,30
+hdfs,30
+lean,29
+css,29
+spotfire,29
+product management,29
+"agile principles, processes, and methodologies",29
+database management,29
+oracle database,29
+sns,29
+traditional sdlc delivery methodologies,28
+jax,28
+documentation,28
+statistical methods,28
+"program management certifications (e.g. pmi, prince2)",28
+a/b testing experimentation,28
+python (or r),28
+sql server integration services (ssis),27
+data ingestion pipelines,27
+structured query language (sql),27
+kanban,27
+analytics,27
+database design,27
+cuda,26
+standardization,26
+data lineage,26
+jupyter notebooks,26
+active directory,26
+public cloud security,26
+redcap,26
+domo,26
+rest api,26
+apache spark™,26
+selenium,26
+spark sql,26
+oozie,26
+pivot tables,26
+process management,25
+deterministic and probabilistic matching methodologies,25
+business process workflow,25
+data scorecard development,25
+exception management,25
+master data hierarchy management,25
+data matching & de-duplication,25
+multi-cloud environments,25
+gis software,25
+dataflow,25
+machine learning algorithms,25
+google sheets,25
+business analysis,25
+building information modeling (bim),25
+anomaly detection,25
+troubleshooting,25
+microsoft office products,25
+langchain,25

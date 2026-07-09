@@ -43,7 +43,8 @@ print("Path to dataset files:", path)
 
 ## Approach
 
-Two NER strategies are supported, and can be compared against each other:
+Two families of NER strategy are implemented (three methods total), compared against
+each other on the same posting set:
 
 1. **Traditional ML NER (implemented)** — two stages, both in spaCy:
    - **Rule-based (`src/ner_spacy.py`)**: an `EntityRuler` seeded with a hand-curated
@@ -63,10 +64,31 @@ Two NER strategies are supported, and can be compared against each other:
      taxonomy-expansion discovery tool, not yet reliable as a standalone open-vocabulary
      extractor** — it'd need more diverse training data (full documents, not just
      sentences; harder negatives) to trust unsupervised.
-2. **LLM-based extraction (planned)** — prompting an LLM (e.g. Claude) to pull
-   structured skill/tool entities out of raw job description text, optionally
-   normalizing them against the same canonical skills taxonomy for comparison against
-   the spaCy results.
+2. **LLM-based extraction (implemented)** — `src/llm_extract.py` runs a local LLM
+   (`qwen2.5:7b-instruct` via Ollama, on-GPU) over each posting's raw `job_summary`,
+   prompted to return structured `(skill, category)` pairs directly (no gazetteer).
+   Chosen over a paid API for this ~12k-posting volume: free and unlimited on local
+   hardware, vs. rate-limited free-tier cloud APIs or a real cost on paid ones.
+   Self-healing by necessity — a 10+ hour unattended run on a machine that sleeps and
+   a resource-constrained WSL2 VM both killed the Ollama server mid-run at least
+   twice; the script now auto-restarts it and retries on a dropped connection instead
+   of recording a false per-posting result (see `src/llm_extract.py` docstring).
+   `src/llm_aggregate.py` normalizes skill names matching a known taxonomy surface
+   form to their canonical name (case-insensitive) and buckets everything else as
+   "novel." Full-corpus run (12,217/12,217, 1 real error): **strong agreement with the
+   rule-based ranking on named tools/languages/platforms** (A/B Testing 3.1% spaCy vs.
+   3.3% LLM; PyTorch 4.9% vs. 4.7%; TensorFlow 6.0% vs. 5.8%) but **sharp divergence on
+   broad methodology/concept terms**, where the LLM is far more conservative (Machine
+   Learning 22.1% vs. 4.6%; Agile 20.8% vs. 2.5%; ETL 15.4% vs. 1.4%). Read: the
+   rule-based ruler fires on every literal keyword occurrence including boilerplate
+   mentions, while the LLM seems to only report a broad concept when it's a
+   substantive focus, not a passing mention. **Trust both methods for specific
+   tools/libraries; treat the LLM's methodology-term percentages as "how often this is
+   a real focus," not "how often it's mentioned."** The novel bucket (19,805 unique
+   spans) is mostly genuine new tools (Jenkins, Informatica, Azure Data Factory,
+   T-SQL, SPSS, PL/SQL) plus bare `r` at 1,427 mentions — the ambiguous single-letter
+   language name deliberately excluded from the taxonomy's rule-based matching, which
+   the LLM handles fine via context.
 
 ### Running the pipeline
 
@@ -75,12 +97,16 @@ Two NER strategies are supported, and can be compared against each other:
 .venv/bin/python src/ner_spacy.py          # rule-based extraction -> results/skill_counts.csv, results/job_skills_extracted.csv
 .venv/bin/python src/train_ner.py          # train statistical model on weak labels -> models/spacy_ner/
 .venv/bin/python src/ner_spacy_trained.py  # run trained model -> results/skill_counts_trained.csv, results/novel_skill_candidates.csv
+.venv/bin/python src/llm_extract.py        # LLM extraction via local Ollama -> results/job_skills_extracted_llm.jsonl (resumable)
+.venv/bin/python src/llm_aggregate.py      # aggregate -> results/skill_counts_llm.csv, results/novel_skill_candidates_llm.csv
 ```
 
 `results/skill_counts.csv` (rule-based) is the trusted ranked demand signal (skill, #
-postings mentioning it, % of postings) — use this one for project-selection decisions
-today. `results/novel_skill_candidates.csv` is worth periodically skimming by hand to
-find real terms worth adding to the taxonomy.
+postings mentioning it, % of postings) for specific tools — use this one for
+project-selection decisions today. `results/skill_counts_llm.csv` corroborates it on
+named tools and adds a second read on broad methodology terms (see caveat above).
+`results/novel_skill_candidates.csv` and `results/novel_skill_candidates_llm.csv` are
+worth periodically skimming by hand to find real terms worth adding to the taxonomy.
 
 ## Pipeline (planned)
 
@@ -105,10 +131,10 @@ raw job postings (scraped / dataset)
 
 ## Status
 
-Data ingestion, rule-based spaCy NER, and a first statistical spaCy NER pass are all
-working end-to-end (see the caveats on the statistical model above). Still open:
-LLM-based extraction, entity normalization beyond the taxonomy's own id-grouping, and
-trend/co-occurrence analysis (see `CLAUDE.md` for current open questions).
+All three extraction methods (rule-based spaCy, statistical spaCy, local-LLM via
+Ollama) are working end-to-end and compared on the full corpus (see the caveats on
+each above). Still open: entity normalization beyond the taxonomy's own id-grouping,
+and trend/co-occurrence analysis (see `CLAUDE.md` for current open questions).
 
 ## Project layout
 
@@ -121,5 +147,8 @@ src/             pipeline code
   ner_spacy.py          rule-based EntityRuler NER pass -> results/
   train_ner.py          bootstraps weak labels from ner_spacy.py, trains models/spacy_ner/
   ner_spacy_trained.py  runs the trained model -> results/ (known + novel skill spans)
+  llm_extract.py        LLM extraction via local Ollama -> results/ (resumable, self-healing)
+  llm_aggregate.py      aggregates llm_extract.py output -> results/ (known + novel skill spans)
 results/         skill demand rankings, per-posting extractions, novel skill candidates
+                 (from both the statistical spaCy model and the LLM)
 ```
