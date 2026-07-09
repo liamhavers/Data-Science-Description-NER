@@ -1,0 +1,781 @@
+skill_a,skill_b,postings_together
+Python,SQL,3294
+Machine Learning,Python,2147
+AWS,Python,1892
+Agile,Python,1700
+Python,Spark,1666
+Agile,SQL,1556
+AWS,SQL,1465
+Data Warehousing,SQL,1396
+Azure,Python,1393
+SQL,Spark,1383
+SQL,Tableau,1345
+AWS,Agile,1335
+Machine Learning,SQL,1294
+ETL,SQL,1289
+AWS,Azure,1277
+Big Data,Python,1275
+Azure,SQL,1270
+Java,Python,1266
+Python,Statistics,1194
+AWS,Machine Learning,1163
+SQL,Statistics,1155
+Big Data,Spark,1146
+Big Data,SQL,1122
+Python,Tableau,1119
+AWS,Spark,1112
+Data Warehousing,Python,1111
+Power BI,SQL,1104
+GCP,Python,1101
+AWS,GCP,1094
+Data Pipelines,Python,1067
+ETL,Python,1058
+Azure,GCP,1040
+Python,Scala,1016
+Data Modeling,SQL,1009
+Agile,Spark,1007
+Agile,Azure,987
+SQL,Snowflake,981
+Java,SQL,956
+Data Visualization,SQL,953
+Agile,Machine Learning,951
+Python,Snowflake,950
+Scala,Spark,932
+Machine Learning,Spark,901
+AWS,Big Data,894
+Azure,Spark,892
+Azure,Data Warehousing,888
+Java,Spark,887
+AWS,Data Warehousing,887
+Excel,SQL,882
+Power BI,Tableau,876
+Data Pipelines,SQL,874
+Azure,Machine Learning,867
+Power BI,Python,851
+Data Visualization,Python,849
+Hadoop,Spark,848
+AWS,Java,847
+Hadoop,Python,841
+Agile,Big Data,831
+SQL,Scala,827
+Machine Learning,Statistics,818
+Agile,Data Warehousing,807
+GCP,SQL,804
+Hadoop,SQL,796
+Java,Scala,790
+AWS,Snowflake,785
+Big Data,Hadoop,784
+Java,Machine Learning,782
+GCP,Machine Learning,782
+Big Data,Java,781
+Agile,Java,780
+Data Modeling,Python,778
+NoSQL,SQL,777
+Big Data,Machine Learning,764
+Linux,Python,759
+Agile,GCP,758
+NoSQL,Python,756
+Data Warehousing,Spark,750
+Data Visualization,Tableau,745
+Business Intelligence,SQL,737
+Data Warehousing,ETL,737
+Big Data,Scala,736
+AWS,Data Pipelines,732
+Data Warehousing,Snowflake,730
+AWS,Scala,723
+Kafka,Python,715
+Agile,Snowflake,715
+GCP,Spark,711
+Azure,Big Data,711
+Data Pipelines,Spark,707
+Linux,SQL,707
+Big Data,Data Warehousing,696
+Agile,Scala,695
+Kafka,Spark,694
+Kafka,SQL,683
+Azure,Snowflake,682
+Machine Learning,PyTorch,679
+SQL,SQL Server,678
+Machine Learning,TensorFlow,677
+Snowflake,Spark,671
+Python,TensorFlow,666
+Data Modeling,ETL,665
+Azure,Java,661
+PyTorch,Python,660
+PyTorch,TensorFlow,645
+AWS,NoSQL,643
+Bash,Python,642
+Machine Learning,Scala,635
+Data Warehousing,GCP,633
+GCP,Java,629
+Statistics,Tableau,628
+Data Modeling,Data Warehousing,625
+AWS,Kafka,622
+Big Data,GCP,621
+Data Warehousing,Java,620
+Azure,Scala,619
+Python,Redshift,613
+Hadoop,Scala,613
+AWS,Redshift,608
+Excel,Python,605
+Redshift,SQL,604
+Azure,Data Pipelines,604
+Databricks,Python,599
+Hive,Spark,597
+Hive,Python,593
+Big Data,Kafka,591
+Hadoop,Java,590
+Data Visualization,Statistics,588
+CI/CD,Python,588
+Data Governance,SQL,588
+Hive,SQL,588
+AWS,Hadoop,586
+Bash,SQL,583
+Data Visualization,Power BI,578
+GCP,Scala,576
+Data Warehousing,Scala,572
+NoSQL,Spark,570
+Agile,ETL,568
+Big Data,Snowflake,567
+Agile,Hadoop,567
+Data Warehousing,Machine Learning,562
+Artificial Intelligence,Machine Learning,562
+AWS,ETL,560
+Agile,Linux,554
+Oracle,SQL,553
+Bash,Linux,551
+Agile,Kafka,549
+Data Pipelines,Data Warehousing,545
+Big Data,NoSQL,544
+Agile,NoSQL,543
+Azure,NoSQL,542
+Excel,Tableau,535
+AWS,Linux,531
+Business Intelligence,Python,529
+Hadoop,Hive,528
+Java,NoSQL,528
+Azure,Databricks,526
+Azure,Hadoop,526
+MySQL,SQL,525
+Data Warehousing,Redshift,525
+GCP,Snowflake,524
+Java,Kafka,524
+Big Data,Data Pipelines,523
+Data Warehousing,Hadoop,522
+Agile,Data Pipelines,521
+Data Pipelines,ETL,517
+Data Warehousing,NoSQL,516
+Big Data,Hive,516
+MySQL,Python,506
+Java,Snowflake,504
+Hadoop,Machine Learning,503
+Deep Learning,Machine Learning,502
+Redshift,Snowflake,502
+Kafka,Snowflake,499
+Excel,Power BI,499
+Big Data,Linux,499
+Azure,ETL,496
+Redshift,Spark,496
+Linux,Spark,495
+Java,Linux,495
+GCP,Hadoop,494
+Hadoop,Kafka,494
+Azure,Kafka,493
+Agile,Data Modeling,492
+AWS,Data Modeling,490
+Data Warehousing,Kafka,490
+ETL,Spark,487
+Agile,Redshift,485
+Data Pipelines,Machine Learning,485
+GCP,NoSQL,484
+Kafka,Scala,483
+Machine Learning,Snowflake,483
+Agile,Bash,481
+GCP,Kafka,480
+Excel,Statistics,477
+Bash,Spark,468
+NoSQL,Snowflake,467
+Hadoop,Linux,467
+AWS,Hive,466
+Deep Learning,Python,464
+AWS,MySQL,463
+Hive,Scala,462
+Big Data,Redshift,459
+Hive,Java,456
+Bash,Big Data,456
+Scala,Snowflake,456
+ETL,Power BI,454
+Azure,Linux,454
+Data Warehousing,Linux,453
+Hadoop,NoSQL,453
+NoSQL,Scala,452
+Databricks,SQL,452
+Kafka,NoSQL,447
+Hadoop,Snowflake,447
+Bash,Hadoop,446
+ETL,Tableau,446
+AWS,Bash,445
+Agile,Hive,444
+Linux,Scala,441
+Data Pipelines,GCP,440
+Bash,Java,439
+CI/CD,SQL,439
+Artificial Intelligence,Python,434
+Power BI,Statistics,434
+Linux,Machine Learning,433
+Data Pipelines,Java,433
+Hive,Kafka,431
+Java,Redshift,431
+Bash,Data Warehousing,429
+Data Pipelines,Scala,428
+ETL,Snowflake,427
+Data Governance,Python,426
+Machine Learning,NoSQL,424
+Azure,Redshift,422
+Azure,MySQL,421
+GCP,Linux,420
+Data Warehousing,Hive,419
+Bash,Scala,419
+AWS,Databricks,418
+Databricks,Spark,418
+GCP,Hive,413
+Agile,CI/CD,413
+Azure,Hive,412
+Data Visualization,Excel,411
+MySQL,Spark,411
+Azure,Data Modeling,409
+Linux,NoSQL,409
+Business Intelligence,Tableau,408
+Azure,Bash,405
+Big Data,ETL,404
+NoSQL,Redshift,404
+Python,SQL Server,404
+Classification,Python,403
+Data Warehousing,MySQL,402
+Redshift,Scala,402
+GCP,Redshift,398
+Machine Learning,Tableau,398
+Linux,MySQL,397
+Data Visualization,Machine Learning,396
+Data Warehousing,Power BI,393
+Hadoop,Redshift,393
+Kafka,Redshift,393
+Agile,MySQL,392
+Hive,Machine Learning,391
+MySQL,NoSQL,391
+Bash,GCP,390
+Java,MySQL,390
+Data Modeling,Spark,388
+AWS,CI/CD,388
+Business Intelligence,Data Warehousing,384
+CI/CD,Spark,384
+Hive,NoSQL,383
+Business Intelligence,Power BI,380
+GCP,MySQL,380
+Bash,NoSQL,379
+Linux,Snowflake,378
+Kafka,Linux,378
+Data Warehousing,Tableau,378
+Hive,Snowflake,377
+Kafka,Machine Learning,376
+Data Pipelines,Snowflake,374
+Azure,Power BI,374
+AWS,Tableau,373
+Big Data,MySQL,373
+Hadoop,MySQL,373
+Hive,Redshift,372
+ETL,SQL Server,371
+Big Data,Data Modeling,369
+Bash,Hive,368
+Hive,Linux,367
+MySQL,Snowflake,365
+Machine Learning,Redshift,364
+Bash,Snowflake,364
+Linux,Redshift,364
+MySQL,Redshift,363
+Agile,Databricks,361
+Bash,Kafka,361
+Bash,MySQL,359
+Data Modeling,Data Pipelines,359
+Agile,Data Governance,359
+Business Intelligence,ETL,357
+Data Modeling,Snowflake,355
+Kafka,MySQL,354
+Hive,MySQL,348
+Bash,Redshift,346
+Data Governance,ETL,345
+MySQL,Scala,343
+Data Governance,Data Modeling,339
+AWS,TensorFlow,337
+AWS,PyTorch,337
+Agile,Tableau,326
+Data Modeling,Machine Learning,324
+Business Intelligence,Data Modeling,321
+Data Warehousing,SQL Server,320
+Data Pipelines,Databricks,320
+Deep Learning,PyTorch,318
+Machine Learning,MySQL,318
+Bash,Machine Learning,317
+Databricks,Machine Learning,316
+Data Modeling,Power BI,312
+Azure,CI/CD,311
+CI/CD,Data Pipelines,309
+Azure,SQL Server,306
+Oracle,SQL Server,304
+Deep Learning,TensorFlow,304
+Data Governance,Data Warehousing,303
+AWS,Statistics,302
+Oracle,Python,301
+Business Intelligence,Data Visualization,298
+Machine Learning,Power BI,293
+Spark,Statistics,292
+Data Pipelines,Kafka,292
+Big Data,CI/CD,292
+Data Visualization,ETL,291
+Data Modeling,SQL Server,286
+Azure,TensorFlow,282
+Business Intelligence,Statistics,278
+Classification,Machine Learning,277
+Agile,Power BI,277
+ETL,Java,276
+Data Pipelines,Hadoop,276
+GCP,TensorFlow,275
+GCP,PyTorch,274
+Azure,PyTorch,274
+Azure,Tableau,272
+ETL,Machine Learning,270
+Business Intelligence,Excel,270
+Data Warehousing,Databricks,269
+Agile,TensorFlow,268
+AWS,Data Governance,268
+Spark,Tableau,268
+Big Data,Tableau,265
+CI/CD,Machine Learning,265
+Data Modeling,Tableau,263
+ETL,Oracle,263
+Agile,PyTorch,262
+Databricks,GCP,260
+Big Data,Statistics,260
+CI/CD,ETL,259
+Classification,SQL,258
+ETL,NoSQL,253
+Power BI,SQL Server,251
+Azure,Data Governance,250
+Business Intelligence,Data Governance,247
+Data Warehousing,Oracle,244
+Data Governance,Spark,244
+Snowflake,Tableau,243
+Data Governance,Power BI,240
+AWS,Oracle,238
+Data Pipelines,NoSQL,237
+Excel,Machine Learning,236
+Agile,Business Intelligence,236
+AWS,SQL Server,235
+CI/CD,Java,235
+Artificial Intelligence,SQL,234
+Agile,Statistics,234
+Databricks,Snowflake,234
+Databricks,ETL,231
+Java,Tableau,229
+Data Governance,Snowflake,228
+Spark,TensorFlow,228
+Data Pipelines,Power BI,225
+AWS,Power BI,224
+ETL,GCP,223
+ETL,Kafka,223
+Agile,SQL Server,223
+Data Pipelines,Redshift,222
+CI/CD,GCP,222
+Java,Statistics,221
+SQL Server,Tableau,220
+Business Intelligence,Spark,216
+Data Modeling,Java,216
+Business Intelligence,Machine Learning,215
+Azure,Statistics,215
+Big Data,Data Governance,214
+Agile,Oracle,213
+Data Pipelines,Tableau,208
+Business Intelligence,SQL Server,207
+PyTorch,Spark,207
+Agile,Classification,207
+Deep Learning,Statistics,207
+Data Visualization,Data Warehousing,205
+Data Modeling,Oracle,205
+Artificial Intelligence,Statistics,204
+Power BI,Snowflake,202
+Big Data,Business Intelligence,202
+Business Intelligence,Snowflake,202
+Data Governance,Tableau,201
+Data Governance,Data Pipelines,199
+Databricks,Scala,197
+Data Warehousing,Excel,195
+CI/CD,Data Modeling,194
+Excel,SQL Server,194
+ETL,Statistics,193
+Java,TensorFlow,191
+CI/CD,Kafka,190
+CI/CD,Scala,190
+Data Modeling,GCP,190
+ETL,Redshift,187
+Data Modeling,NoSQL,187
+Data Visualization,Spark,187
+AWS,Data Visualization,187
+Big Data,Databricks,187
+Artificial Intelligence,Deep Learning,187
+Data Modeling,Statistics,187
+Data Modeling,Databricks,186
+Data Warehousing,Statistics,185
+Agile,Data Visualization,184
+Power BI,Spark,184
+Data Modeling,Kafka,183
+Linux,Oracle,182
+Data Pipelines,Statistics,181
+Data Pipelines,Hive,181
+Agile,Excel,180
+Artificial Intelligence,Spark,179
+GCP,Tableau,179
+Java,PyTorch,178
+Artificial Intelligence,Big Data,178
+CI/CD,Data Warehousing,178
+ETL,Hadoop,177
+AWS,Business Intelligence,177
+Big Data,Data Visualization,176
+Azure,Business Intelligence,176
+Artificial Intelligence,TensorFlow,175
+Databricks,Power BI,175
+Data Pipelines,PyTorch,173
+ETL,Excel,173
+Azure,Classification,172
+AWS,Classification,171
+Scala,TensorFlow,171
+CI/CD,Snowflake,171
+Deep Learning,ETL,171
+ETL,Scala,170
+Azure,Oracle,170
+Classification,Statistics,169
+Data Pipelines,TensorFlow,169
+Data Modeling,Scala,169
+Artificial Intelligence,PyTorch,168
+Data Governance,Excel,168
+SQL Server,Snowflake,168
+Data Visualization,Java,167
+Data Modeling,Data Visualization,167
+Statistics,TensorFlow,166
+Business Intelligence,Data Pipelines,166
+PyTorch,Scala,165
+Deep Learning,SQL,165
+Classification,TensorFlow,162
+Data Modeling,Hadoop,162
+PyTorch,Statistics,162
+Databricks,TensorFlow,161
+AWS,Excel,161
+Big Data,Power BI,160
+Excel,Oracle,160
+Classification,Spark,160
+Hadoop,Statistics,159
+Databricks,PyTorch,158
+Data Governance,Machine Learning,158
+Data Modeling,Redshift,157
+AWS,Deep Learning,156
+CI/CD,Databricks,156
+Classification,PyTorch,156
+Data Pipelines,Linux,155
+Oracle,Tableau,155
+Hadoop,Tableau,154
+Data Pipelines,MySQL,152
+SQL Server,Statistics,149
+Data Modeling,Excel,149
+AWS,Artificial Intelligence,149
+Data Governance,Statistics,149
+NoSQL,SQL Server,146
+Data Governance,Data Visualization,145
+Classification,GCP,143
+Bash,Data Pipelines,143
+MySQL,Oracle,141
+Data Pipelines,SQL Server,140
+Azure,Data Visualization,140
+Hive,Tableau,140
+Big Data,Excel,139
+Artificial Intelligence,Data Visualization,139
+Java,Oracle,138
+Redshift,Tableau,138
+Scala,Statistics,138
+Databricks,Java,137
+Artificial Intelligence,Java,137
+SQL,TensorFlow,136
+Azure,Excel,135
+GCP,Statistics,134
+Data Governance,GCP,134
+Java,SQL Server,133
+Data Pipelines,Data Visualization,133
+Data Visualization,SQL Server,133
+Java,Power BI,132
+CI/CD,Data Governance,132
+Scala,Tableau,132
+Big Data,Classification,132
+Big Data,TensorFlow,131
+Agile,Artificial Intelligence,131
+MySQL,SQL Server,129
+Classification,Databricks,129
+Data Governance,Databricks,129
+Oracle,Snowflake,128
+Oracle,Power BI,126
+Deep Learning,Spark,126
+Business Intelligence,Oracle,125
+Business Intelligence,Java,121
+Classification,Data Modeling,121
+Data Governance,Kafka,121
+Snowflake,Statistics,120
+NoSQL,Tableau,119
+CI/CD,NoSQL,118
+Classification,Data Governance,118
+SQL Server,Spark,118
+Big Data,PyTorch,118
+Business Intelligence,Classification,117
+PyTorch,SQL,116
+Linux,Statistics,116
+Classification,ETL,115
+CI/CD,TensorFlow,114
+Kafka,Tableau,114
+CI/CD,Hadoop,113
+Excel,Spark,113
+CI/CD,PyTorch,113
+Databricks,Tableau,111
+GCP,Power BI,111
+Business Intelligence,CI/CD,111
+Machine Learning,SQL Server,109
+Oracle,Spark,109
+Databricks,Hadoop,108
+Classification,Excel,108
+ETL,MySQL,107
+Big Data,Oracle,106
+Data Visualization,GCP,106
+Linux,SQL Server,105
+Artificial Intelligence,Tableau,104
+Azure,Deep Learning,103
+Hive,Statistics,103
+Business Intelligence,Kafka,102
+Bash,Oracle,102
+ETL,Hive,101
+Artificial Intelligence,Azure,101
+Linux,Tableau,101
+Big Data,SQL Server,101
+Data Governance,SQL Server,101
+Databricks,Kafka,100
+Big Data,Deep Learning,99
+Data Modeling,MySQL,98
+ETL,Linux,98
+Data Visualization,Snowflake,98
+Data Governance,Oracle,97
+Data Governance,Java,97
+Excel,Java,97
+Data Pipelines,Excel,97
+Data Visualization,Hadoop,96
+Data Governance,NoSQL,95
+MySQL,Tableau,95
+Data Pipelines,Oracle,93
+Data Governance,Hadoop,93
+Bash,Tableau,92
+Classification,Tableau,92
+Data Modeling,Hive,91
+Deep Learning,Java,91
+Databricks,Statistics,90
+CI/CD,SQL Server,90
+Data Modeling,Linux,90
+CI/CD,Power BI,90
+Excel,GCP,89
+Classification,Power BI,89
+Deep Learning,GCP,88
+Excel,Snowflake,87
+Business Intelligence,Databricks,87
+Artificial Intelligence,Hadoop,87
+Oracle,Statistics,86
+Data Governance,Scala,86
+Agile,Deep Learning,84
+Bash,ETL,84
+Artificial Intelligence,Power BI,84
+Data Visualization,Scala,83
+Artificial Intelligence,Data Pipelines,83
+CI/CD,Tableau,83
+Data Visualization,NoSQL,83
+NoSQL,Statistics,81
+Databricks,SQL Server,80
+Deep Learning,Scala,79
+Power BI,Scala,78
+Classification,Snowflake,78
+NoSQL,Power BI,77
+Hadoop,Power BI,77
+GCP,SQL Server,77
+CI/CD,Linux,76
+Data Visualization,Oracle,76
+CI/CD,Classification,75
+NoSQL,Oracle,74
+Classification,Data Visualization,74
+Databricks,Excel,74
+Classification,Kafka,74
+Artificial Intelligence,Excel,74
+Business Intelligence,Redshift,73
+Artificial Intelligence,GCP,73
+Power BI,Redshift,72
+Data Governance,Redshift,71
+Deep Learning,Linux,71
+Hadoop,Oracle,70
+Classification,Deep Learning,69
+Machine Learning,Oracle,69
+Excel,Hadoop,69
+Business Intelligence,GCP,68
+CI/CD,Oracle,68
+Artificial Intelligence,Data Warehousing,66
+Data Visualization,Databricks,66
+Business Intelligence,Scala,65
+Business Intelligence,Hadoop,65
+CI/CD,Hive,64
+Oracle,Redshift,64
+Databricks,NoSQL,64
+Bash,Data Modeling,63
+CI/CD,Redshift,63
+Databricks,Redshift,63
+Hadoop,TensorFlow,62
+Databricks,Hive,61
+Classification,Java,61
+GCP,Oracle,60
+Bash,CI/CD,59
+Artificial Intelligence,Scala,59
+Artificial Intelligence,Linux,59
+Linux,TensorFlow,59
+Bash,SQL Server,58
+Data Visualization,Hive,57
+Artificial Intelligence,Snowflake,57
+Data Visualization,Deep Learning,57
+Excel,Scala,57
+Data Warehousing,TensorFlow,56
+Artificial Intelligence,CI/CD,56
+Business Intelligence,NoSQL,55
+Data Visualization,TensorFlow,55
+Artificial Intelligence,ETL,55
+Linux,PyTorch,55
+Artificial Intelligence,Business Intelligence,53
+Hadoop,PyTorch,52
+Data Pipelines,Deep Learning,51
+Data Warehousing,PyTorch,51
+CI/CD,Statistics,51
+Deep Learning,Hadoop,50
+Artificial Intelligence,Data Governance,50
+Artificial Intelligence,SQL Server,50
+Artificial Intelligence,Classification,50
+Kafka,Statistics,50
+Kafka,SQL Server,49
+Artificial Intelligence,Data Modeling,49
+Kafka,Oracle,49
+Classification,Data Warehousing,49
+Databricks,Oracle,49
+Redshift,SQL Server,49
+PyTorch,Snowflake,48
+Tableau,TensorFlow,47
+Artificial Intelligence,NoSQL,47
+MySQL,Statistics,46
+Data Visualization,Redshift,45
+Classification,Hadoop,45
+CI/CD,Deep Learning,45
+Excel,Kafka,44
+Kafka,Power BI,43
+Excel,NoSQL,43
+Classification,Scala,43
+Data Visualization,MySQL,43
+Snowflake,TensorFlow,43
+Bash,Statistics,41
+Classification,Data Pipelines,41
+CI/CD,MySQL,41
+Redshift,Statistics,41
+Hive,Power BI,40
+Excel,Redshift,40
+Business Intelligence,Hive,40
+Data Visualization,Linux,40
+Data Visualization,PyTorch,39
+CI/CD,Excel,39
+Data Governance,MySQL,38
+MySQL,Power BI,38
+CI/CD,Data Visualization,37
+SQL Server,Scala,37
+Hive,Oracle,37
+Data Visualization,Kafka,37
+Hadoop,SQL Server,36
+Data Governance,Hive,36
+Deep Learning,Tableau,36
+Deep Learning,Hive,35
+Data Governance,Linux,35
+Excel,Linux,34
+Excel,Hive,34
+Data Modeling,TensorFlow,34
+Excel,MySQL,33
+Excel,PyTorch,33
+Bash,Data Governance,33
+ETL,TensorFlow,33
+Data Modeling,PyTorch,33
+Business Intelligence,Linux,32
+Classification,NoSQL,31
+PyTorch,Tableau,31
+Bash,Databricks,31
+Business Intelligence,MySQL,31
+Oracle,Scala,31
+Excel,TensorFlow,30
+Deep Learning,NoSQL,29
+Databricks,MySQL,29
+ETL,PyTorch,29
+Artificial Intelligence,Oracle,28
+Linux,Power BI,28
+Power BI,TensorFlow,28
+Artificial Intelligence,Kafka,28
+Artificial Intelligence,Hive,28
+Classification,Oracle,27
+Databricks,Linux,27
+Artificial Intelligence,Redshift,27
+Bash,Power BI,26
+Classification,Hive,26
+Classification,SQL Server,26
+Kafka,TensorFlow,26
+Databricks,Deep Learning,25
+Classification,Linux,25
+Kafka,PyTorch,24
+Artificial Intelligence,MySQL,24
+Deep Learning,Excel,24
+Data Modeling,Deep Learning,24
+Bash,Excel,24
+NoSQL,TensorFlow,24
+Hive,TensorFlow,22
+Bash,Business Intelligence,21
+Artificial Intelligence,Bash,19
+Deep Learning,Power BI,19
+Artificial Intelligence,Databricks,19
+Deep Learning,Kafka,18
+NoSQL,PyTorch,18
+Classification,Redshift,18
+Bash,Data Visualization,17
+Hive,SQL Server,17
+Power BI,PyTorch,17
+Hive,PyTorch,16
+Data Warehousing,Deep Learning,15
+Data Governance,TensorFlow,14
+Deep Learning,Snowflake,13
+MySQL,TensorFlow,12
+Business Intelligence,Deep Learning,12
+Data Governance,Deep Learning,11
+Deep Learning,Redshift,11
+SQL Server,TensorFlow,11
+Data Governance,PyTorch,10
+Classification,MySQL,9
+Deep Learning,SQL Server,9
+Bash,Classification,8
+Business Intelligence,TensorFlow,8
+Bash,Deep Learning,8
+PyTorch,Redshift,8
+MySQL,PyTorch,8
+PyTorch,SQL Server,8
+Bash,PyTorch,7
+Redshift,TensorFlow,7
+Deep Learning,MySQL,7
+Deep Learning,Oracle,7
+Bash,TensorFlow,7
+Oracle,TensorFlow,6
+Business Intelligence,PyTorch,5
+Oracle,PyTorch,2

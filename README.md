@@ -112,14 +112,32 @@ each other on the same posting set:
 .venv/bin/python src/ner_spacy_trained.py  # run trained model -> results/skill_counts_trained.csv, results/novel_skill_candidates.csv
 .venv/bin/python src/llm_extract.py        # LLM extraction via local Ollama -> results/job_skills_extracted_llm.jsonl (resumable)
 .venv/bin/python src/llm_aggregate.py      # aggregate -> results/skill_counts_llm.csv, results/novel_skill_candidates_llm.csv
+.venv/bin/python src/combine_rankings.py   # merge all three rankings -> results/skill_counts_combined.csv
+.venv/bin/python src/analyze_trends.py     # co-occurrence + posting-date trend -> results/skill_cooccurrence.csv, results/skill_trend_by_day.csv
 ```
 
 `results/skill_counts.csv` (rule-based) is the trusted ranked demand signal (skill, #
 postings mentioning it, % of postings) for specific tools — use this one for
 project-selection decisions today. `results/skill_counts_llm.csv` corroborates it on
 named tools and adds a second read on broad methodology terms (see caveat above).
+`results/skill_counts_combined.csv` merges all three side by side and ranks skills by
+how much the rule-based and LLM percentages diverge — useful for spotting which
+"in-demand" terms are boilerplate-keyword inflation (Agile 20.8% rule vs. 2.5% LLM,
+ETL 15.4% vs. 1.4%) versus a genuine, substantive focus (Python 39.6% vs. 41.9%,
+A/B Testing 3.1% vs. 3.3%).
 `results/novel_skill_candidates.csv` and `results/novel_skill_candidates_llm.csv` are
 worth periodically skimming by hand to find real terms worth adding to the taxonomy.
+
+`results/skill_cooccurrence.csv` (from `src/analyze_trends.py`, using the trusted
+rule-based extraction) counts how often pairs of top-40 skills appear together in the
+same posting — e.g. Python+SQL co-occur in 3,294 postings, Machine Learning+Python in
+2,147 — useful for picking a *combination* of skills to build a project around, not
+just a single one. The same script also buckets postings by `first_seen` date for a
+day-over-day trend view, but this dataset's `first_seen` only spans 6 days
+(2024-01-12 to 2024-01-17), a scrape snapshot rather than a longitudinal crawl — the
+resulting swings (e.g. AWS 18.0%-35.5% day to day) are small-sample noise, not a real
+trend signal. Kept in place as a placeholder for if/when a wider-dated dataset is
+used.
 
 ## Pipeline (planned)
 
@@ -146,8 +164,11 @@ raw job postings (scraped / dataset)
 
 All three extraction methods (rule-based spaCy, statistical spaCy, local-LLM via
 Ollama) are working end-to-end and compared on the full corpus (see the caveats on
-each above). Still open: entity normalization beyond the taxonomy's own id-grouping,
-and trend/co-occurrence analysis (see `CLAUDE.md` for current open questions).
+each above), with a combined cross-method ranking and a skill co-occurrence view on
+top. Still open: entity normalization beyond the taxonomy's own id-grouping, a real
+trend-over-time view (needs a wider-dated dataset — see the `first_seen` caveat
+above), and actually picking/starting the next personal project based on the ranked
+output (see `CLAUDE.md` for the project timeline and current open questions).
 
 ## Project layout
 
@@ -162,6 +183,9 @@ src/             pipeline code
   ner_spacy_trained.py  runs the trained model -> results/ (known + novel skill spans)
   llm_extract.py        LLM extraction via local Ollama -> results/ (resumable, self-healing)
   llm_aggregate.py      aggregates llm_extract.py output -> results/ (known + novel skill spans)
+  combine_rankings.py   merges all three methods' rankings -> results/skill_counts_combined.csv
+  analyze_trends.py     skill co-occurrence + posting-date trend -> results/ (see trend caveat above)
 results/         skill demand rankings, per-posting extractions, novel skill candidates
-                 (from both the statistical spaCy model and the LLM)
+                 (from both the statistical spaCy model and the LLM), combined
+                 cross-method ranking, co-occurrence and trend-by-day views
 ```

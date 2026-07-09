@@ -103,6 +103,37 @@ Key decisions:
   `src/train_ner.py` + `src/ner_spacy_trained.py` if retraining is warranted, and
   `src/llm_aggregate.py` to reclassify known-vs-novel LLM output) after editing it.
 
+## Project timeline (rough outline)
+
+Roughly chronological, for orientation rather than a changelog (see `git log` for
+exact history):
+
+1. **Scoping** — README/CLAUDE.md drafted, data source decided (Kaggle
+   `asaniczka/data-science-job-postings-and-skills` via `kagglehub`), venv set up.
+2. **Data ingestion** — `src/ingest.py` joins the three source CSVs into
+   `data/processed/job_postings.csv`.
+3. **Rule-based NER** — `src/skills_taxonomy.py` (v1, ~40 entries) +
+   `src/ner_spacy.py`. First trustworthy ranking (`results/skill_counts.csv`).
+4. **Taxonomy expansion round 1 + statistical NER** — taxonomy grown 40 → 90 entries
+   from `job_skills.csv` frequency counts; `src/train_ner.py` /
+   `src/ner_spacy_trained.py` added as a weak-supervision-trained spaCy model, with
+   the dev-F1-is-not-generalization caveat established immediately.
+5. **LLM-based extraction** — `src/llm_extract.py` (local Ollama, `qwen2.5:7b-instruct`)
+   + `src/llm_aggregate.py`. Required making the ~10+ hour unattended run self-healing
+   (retry/backoff + auto-restart of the Ollama server) after a host-sleep/WSL2-VM
+   resource crash silently corrupted an early run's resumable state; also required
+   raising `.wslconfig` memory/CPU limits for a stable overnight run.
+6. **Taxonomy expansion round 2** — curated the LLM pipeline's novel-candidate bucket
+   (~19.8k unique spans) down to ~65 clear additions; taxonomy 90 → 157 entries.
+   Statistical model retrained and rule-based/LLM pipelines rerun against it.
+7. **Cross-method comparison + relationship analysis** (current) —
+   `src/combine_rankings.py` merges all three methods' rankings into one table and
+   surfaces where they agree/diverge; `src/analyze_trends.py` adds skill co-occurrence
+   and a first pass at posting-date trend (see its caveat: the dataset's `first_seen`
+   only spans ~6 days, so this isn't a real trend signal yet).
+8. **Not yet started** — deciding and acting on an actual next personal project based
+   on the ranked skill demand output (the project's actual end goal).
+
 ## Conventions
 
 - Python-first project (matches the parent `pythonProjects` workspace). Dependencies
