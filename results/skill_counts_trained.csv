@@ -1,11 +1,11 @@
 skill,postings_mentioning,pct_of_postings
-SQL,5004,41.0
-Python,4836,39.6
+SQL,4917,40.2
+Python,4838,39.6
 Machine Learning,2695,22.1
-AWS,2683,22.0
+AWS,2606,21.3
 Agile,2547,20.8
-Azure,2048,16.8
-Excel,1932,15.8
+Azure,1956,16.0
+Excel,1934,15.8
 Spark,1926,15.8
 Statistics,1880,15.4
 ETL,1879,15.4
@@ -19,79 +19,138 @@ Data Pipelines,1382,11.3
 GCP,1358,11.1
 Snowflake,1263,10.3
 Data Visualization,1242,10.2
-Linux,1092,8.9
 Scala,1085,8.9
+Linux,1054,8.6
 Data Governance,1011,8.3
-Business Intelligence,994,8.1
-Hadoop,972,8.0
-SQL Server,921,7.5
-NoSQL,913,7.5
-Kafka,861,7.0
+Business Intelligence,1005,8.2
+Hadoop,970,7.9
+SQL Server,918,7.5
+NoSQL,912,7.5
+Kafka,860,7.0
 Oracle,852,7.0
 Databricks,764,6.3
-CI/CD,749,6.1
+CI/CD,756,6.2
+Artificial Intelligence,730,6.0
 TensorFlow,727,6.0
+PyTorch,727,6.0
 Redshift,707,5.8
 Deep Learning,705,5.8
+Bash,704,5.8
 Classification,685,5.6
 Hive,671,5.5
-DevOps,669,5.5
-MongoDB,614,5.0
 MySQL,614,5.0
-PyTorch,603,4.9
-Kubernetes,564,4.6
+MongoDB,612,5.0
 Airflow,563,4.6
 Data Mining,562,4.6
-Amazon EMR,541,4.4
-Amazon S3,541,4.4
+DevOps,562,4.6
+Kubernetes,562,4.6
+Amazon EMR,540,4.4
+Amazon S3,540,4.4
 NLP,534,4.4
 PostgreSQL,504,4.1
 Jira,498,4.1
 Docker,498,4.1
+MLOps,482,3.9
 SAS,476,3.9
 Cassandra,437,3.6
+Microservices,423,3.5
 Git,413,3.4
 SAP,402,3.3
-Scrum,396,3.2
+Scrum,397,3.2
 MapReduce,391,3.2
-A/B Testing,362,3.0
-C++,361,3.0
+A/B Testing,375,3.1
+C++,360,2.9
 Regression,341,2.8
 scikit-learn,333,2.7
 Pandas,328,2.7
 Gurobi,326,2.7
+LLMs,308,2.5
+SSIS,308,2.5
+Informatica,306,2.5
+Generative AI,272,2.2
 NumPy,260,2.1
+Azure Data Factory,244,2.0
+Azure Synapse Analytics,228,1.9
+Computer Vision,227,1.9
 dbt,224,1.8
-Computer Vision,222,1.8
 MLflow,222,1.8
 Clustering,221,1.8
+Amazon RDS,221,1.8
 Hypothesis Testing,219,1.8
 GitHub,217,1.8
+JavaScript,217,1.8
 Terraform,215,1.8
-Looker,215,1.8
+Looker,214,1.8
+Reinforcement Learning,212,1.7
+Jenkins,210,1.7
+C#,202,1.7
+Salesforce,196,1.6
+T-SQL,195,1.6
+SSRS,187,1.5
+SharePoint,187,1.5
+Confluence,183,1.5
+PL/SQL,180,1.5
+PowerShell,175,1.4
 Jupyter,169,1.4
 MATLAB,164,1.3
 BigQuery,160,1.3
+DB2,154,1.3
+SPSS,151,1.2
+React,150,1.2
 Time Series,144,1.2
+Azure DevOps,144,1.2
 Alteryx,142,1.2
 Feature Engineering,140,1.1
 Hugging Face / Transformers,131,1.1
-Ansible,117,1.0
+Amazon Athena,126,1.0
+Amazon EC2,125,1.0
+Azure Data Lake,124,1.0
+Go,121,1.0
+TDD,120,1.0
+DynamoDB,118,1.0
+Ansible,116,0.9
 SageMaker,114,0.9
+VBA,113,0.9
+Dask,109,0.9
+Weights & Biases,105,0.9
+Teradata,104,0.9
 Qlik,104,0.9
 Keras,103,0.8
+Numba,102,0.8
+Amazon Kinesis,101,0.8
+Google Analytics,100,0.8
+AWS Glue,97,0.8
 GitLab,97,0.8
+Delta Lake,95,0.8
+Talend,94,0.8
+Apache Storm,93,0.8
+Helm,86,0.7
+Perl,85,0.7
+Flink,84,0.7
+Amazon Neptune,83,0.7
+Stata,83,0.7
+Explainable AI,80,0.7
+Presto,80,0.7
+SPARQL,78,0.6
 Elasticsearch,77,0.6
+Causal Inference,76,0.6
+Apache NiFi,73,0.6
+HBase,72,0.6
 Redis,68,0.6
-Bitbucket,63,0.5
-Matplotlib,62,0.5
+Splunk,67,0.5
+Ruby,67,0.5
+Bitbucket,62,0.5
+Matplotlib,61,0.5
+Kubeflow,61,0.5
 XGBoost,56,0.5
+Grafana,48,0.4
+Flask,46,0.4
 Seaborn,31,0.3
 Plotly,28,0.2
-NLTK,20,0.2
+AWS Lambda,26,0.2
 Julia,19,0.2
-Vertex AI,18,0.1
+Vertex AI,19,0.2
+NLTK,19,0.2
 OpenCV,17,0.1
-R,15,0.1
 LightGBM,7,0.1
 statsmodels,1,0.0

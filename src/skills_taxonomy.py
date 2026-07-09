@@ -117,6 +117,8 @@ TAXONOMY = [
     ("Ansible", "TOOL", ["ansible"]),
     ("Linux", "TOOL", ["linux", "unix/linux", "unix"]),
     ("SAS", "TOOL", ["sas"]),
+    ("SPSS", "TOOL", ["spss"]),
+    ("Stata", "TOOL", ["stata"]),
     ("Looker", "TOOL", ["looker", "looker studio"]),
     ("dbt", "TOOL", ["dbt"]),
     ("Alteryx", "TOOL", ["alteryx"]),

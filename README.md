@@ -48,10 +48,12 @@ each other on the same posting set:
 
 1. **Traditional ML NER (implemented)** — two stages, both in spaCy:
    - **Rule-based (`src/ner_spacy.py`)**: an `EntityRuler` seeded with a hand-curated
-     skills taxonomy (`src/skills_taxonomy.py`, ~90 skills across LANGUAGE, CLOUD,
-     DATABASE, LIBRARY, TOOL, METHOD — expanded using frequency counts from the
-     dataset's own `job_skills.csv` column as an empirical guide, filtering out generic
-     terms like "Communication"). This is the primary, trusted ranking.
+     skills taxonomy (`src/skills_taxonomy.py`, **157 skills** across LANGUAGE, CLOUD,
+     DATABASE, LIBRARY, TOOL, METHOD — expanded twice: once using frequency counts from
+     the dataset's own `job_skills.csv` column, once more from curating the LLM
+     pipeline's novel-candidate bucket below, both times filtering out generic terms
+     like "Communication" or near-duplicate rephrasings of existing entries). This is
+     the primary, trusted ranking.
    - **Statistical (`src/train_ner.py` / `src/ner_spacy_trained.py`)**: a trained spaCy
      `ner` component, bootstrapped from the rule-based pass applied sentence-by-sentence
      (weak supervision — no hand-labeling). Dev-set F1 came back ~0.998, but that number
@@ -60,10 +62,14 @@ each other on the same posting set:
      of the model's "novel" spans (things it flagged that aren't in the taxonomy at all)
      confirmed this: a handful of genuinely new phrasings turned up (`a/b tests`,
      `ci / cd`, `machine vision` — since folded into the taxonomy) alongside a lot of
-     noise (`jacks`, `probe`, `conceptualize`, `solicit`). **Current verdict: useful as a
-     taxonomy-expansion discovery tool, not yet reliable as a standalone open-vocabulary
-     extractor** — it'd need more diverse training data (full documents, not just
-     sentences; harder negatives) to trust unsupervised.
+     noise (`jacks`, `probe`, `conceptualize`, `solicit`). Retrained after the taxonomy
+     expansion: novel spans dropped from 279 to 140 unique (most of what it used to
+     flag as novel is now correctly recognized as known), and what's left is almost
+     entirely noise (`amended`, `hcfa`, `stamford`, `junk`) — a good sign the taxonomy
+     now covers the corpus well. **Current verdict: useful as a taxonomy-expansion
+     discovery tool, not yet reliable as a standalone open-vocabulary extractor** — it'd
+     need more diverse training data (full documents, not just sentences; harder
+     negatives) to trust unsupervised.
 2. **LLM-based extraction (implemented)** — `src/llm_extract.py` runs a local LLM
    (`qwen2.5:7b-instruct` via Ollama, on-GPU) over each posting's raw `job_summary`,
    prompted to return structured `(skill, category)` pairs directly (no gazetteer).
@@ -84,11 +90,18 @@ each other on the same posting set:
    mentions, while the LLM seems to only report a broad concept when it's a
    substantive focus, not a passing mention. **Trust both methods for specific
    tools/libraries; treat the LLM's methodology-term percentages as "how often this is
-   a real focus," not "how often it's mentioned."** The novel bucket (19,805 unique
-   spans) is mostly genuine new tools (Jenkins, Informatica, Azure Data Factory,
-   T-SQL, SPSS, PL/SQL) plus bare `r` at 1,427 mentions — the ambiguous single-letter
-   language name deliberately excluded from the taxonomy's rule-based matching, which
-   the LLM handles fine via context.
+   a real focus," not "how often it's mentioned."** The novel bucket originally
+   surfaced 19,805 unique spans — curated the clearest, most specific, least ambiguous
+   ~65 of them into the taxonomy (Jenkins, Informatica, Azure Data Factory, T-SQL,
+   SPSS, PL/SQL, Go, JavaScript, C#, and more), skipping generic soft-skill phrases,
+   near-duplicate rephrasings, and off-topic noise from non-DS postings that slipped
+   into the dataset. After that expansion the bucket sits at 19,722 (exact-string
+   matching only, so it doesn't shrink 1:1 with taxonomy growth — e.g. "amazon web
+   services (aws)" won't match the "amazon web services" surface it contains, unlike
+   the rule-based ruler's substring matching). Bare `r` still tops it at 1,427
+   mentions — the ambiguous single-letter language name deliberately excluded from the
+   taxonomy's rule-based matching (and from `go`, `ai`, `lambda`, `glue` for the same
+   reason), which the LLM handles fine via context.
 
 ### Running the pipeline
 

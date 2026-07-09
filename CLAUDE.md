@@ -42,7 +42,11 @@ Key decisions:
     **Don't present this model's dev F1 as a quality signal without this caveat**, and
     don't treat its "novel" bucket as ready to use unfiltered — it needs human review
     per term. It's a discovery aid for expanding the taxonomy, not yet a trustworthy
-    standalone extractor.
+    standalone extractor. Retrained after the taxonomy expansion below: novel spans
+    dropped from 279 to 140 unique, and what's left is almost entirely noise
+    (`amended`, `hcfa`, `stamford`, `junk`) rather than real misses — a good sign the
+    taxonomy now covers the corpus well; diminishing returns from this discovery loop
+    going forward.
   - LLM-based extraction (`src/llm_extract.py` / `src/llm_aggregate.py`): a local
     `qwen2.5:7b-instruct` model via Ollama, running on-GPU rather than a paid API —
     free and unlimited for this ~12k-posting volume, versus rate-limited free-tier
@@ -66,17 +70,38 @@ Key decisions:
     Novel bucket surfaced bare `r` at 1,427 mentions — confirms the single-letter
     ambiguity concern that made us exclude it from the taxonomy's rule-based
     surfaces, but the LLM disambiguates it fine via context.
-- **Skills taxonomy (~90 entries, still growing)**: hand-curated in
+- **Skills taxonomy (157 entries, still growing)**: hand-curated in
   `src/skills_taxonomy.py` as `(canonical_name, category, [surface forms])` tuples —
   category becomes the spaCy entity label, canonical_name is looked up via
-  `ent.ent_id_` so spelling variants collapse to one skill. Expanded once already using
-  frequency counts from `job_skills.csv` as an *empirical guide only* (which specific
-  tools are actually mentioned a lot) — generic non-actionable terms from that column
-  (e.g. "Communication", "Problem Solving", "Data Analysis") were deliberately excluded;
-  it is still not used as ground truth for any posting's extraction. Expand this file
-  directly when a new skill/tool needs tracking (including reviewed hits from
-  `results/novel_skill_candidates.csv`); keep one skill's variants together in one
-  tuple, and rerun `src/ner_spacy.py` after editing it.
+  `ent.ent_id_` so spelling variants collapse to one skill. It is still not used as
+  ground truth for any posting's extraction — only as the seed vocabulary for the
+  rule-based ruler and the known/novel normalization key for the LLM pipeline.
+  Expanded twice so far, both times from empirical evidence rather than guessing:
+  1. From `job_skills.csv` frequency counts (which specific tools are actually
+     mentioned a lot) — 40 → 90 entries.
+  2. From curating the LLM pipeline's novel-candidate bucket (~65 more) — 90 → 157
+     entries. Added the clearest, most specific, least ambiguous hits (Jenkins,
+     Informatica, Azure Data Factory, T-SQL, SPSS, PL/SQL, Go, JavaScript, C#, MLOps,
+     Generative AI, LLMs, Reinforcement Learning, and more); skipped generic
+     soft-skill phrases ("project management", "communication skills"),
+     near-duplicate rephrasings of existing entries ("data analytics", "etl
+     processes"), enterprise-BI tools with low personal-project value (Cognos,
+     MicroStrategy, Collibra, ServiceNow), and embedded-hardware terms that were
+     clearly off-topic noise from a non-DS posting that slipped into the dataset.
+  Both times, generic non-actionable terms were deliberately excluded (e.g.
+  "Communication", "Problem Solving", "Data Analysis" from `job_skills.csv`).
+  **Ambiguous single-token surfaces are deliberately excluded from rule-based
+  matching** even when the underlying skill is added: bare `r` (too ambiguous a
+  token), bare `go` (an ordinary English word, riskier than `r`), bare `ai`, bare
+  `lambda` (also an anonymous-function keyword), bare `glue` (also "glue code"). Keep
+  this exclusion pattern for any future single-token/common-word addition — it's
+  cheap insurance against false positives in the mechanical phrase matcher, and the
+  LLM pipeline disambiguates these fine via context anyway. Expand this file directly
+  when a new skill/tool needs tracking (including reviewed hits from
+  `results/novel_skill_candidates.csv` or `results/novel_skill_candidates_llm.csv`);
+  keep one skill's variants together in one tuple, and rerun `src/ner_spacy.py` (and
+  `src/train_ner.py` + `src/ner_spacy_trained.py` if retraining is warranted, and
+  `src/llm_aggregate.py` to reclassify known-vs-novel LLM output) after editing it.
 
 ## Conventions
 
