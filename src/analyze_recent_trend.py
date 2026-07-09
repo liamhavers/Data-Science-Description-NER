@@ -26,12 +26,20 @@ TOP_N_SKILLS = 12
 
 
 def load_corpus() -> pd.DataFrame:
+    # Each source's posted_date is parsed separately, before concatenating --
+    # pandas infers a single date format from a string column's first values
+    # and coerces every non-matching row to NaT, so parsing the combined
+    # column in one pass would silently drop one source's dates depending on
+    # concat order (verified: this dropped all live-fetched rows when the
+    # base CSV's plain "YYYY-MM-DD" dates came first).
     base = pd.read_csv(BASE_PATH, usecols=["job_title", "posted_date", "job_description"])
+    base["posted_date"] = pd.to_datetime(base["posted_date"], utc=True, errors="coerce")
     if ADZUNA_PATH.exists():
         live = pd.read_json(ADZUNA_PATH, lines=True)[["job_title", "posted_date", "job_description"]]
+        live["posted_date"] = pd.to_datetime(live["posted_date"], utc=True, errors="coerce")
         base = pd.concat([base, live], ignore_index=True)
         print(f"included {len(live)} live-fetched postings from {ADZUNA_PATH.name}")
-    base["posted_date"] = pd.to_datetime(base["posted_date"], utc=True, errors="coerce").dt.tz_localize(None)
+    base["posted_date"] = base["posted_date"].dt.tz_localize(None)
     return base.dropna(subset=["posted_date", "job_description"])
 
 
