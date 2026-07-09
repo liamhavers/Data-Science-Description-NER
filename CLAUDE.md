@@ -103,6 +103,45 @@ Key decisions:
   `src/train_ner.py` + `src/ner_spacy_trained.py` if retraining is warranted, and
   `src/llm_aggregate.py` to reclassify known-vs-novel LLM output) after editing it.
 
+- **Trend-over-time / recent-data source (decided)**: the primary dataset's
+  `first_seen` only spans 6 days, so it can't show whether a skill is rising or
+  falling — and the user wants this since AI/data-science skills shift quickly.
+  Researched alternatives before building anything:
+  - `arshkon/linkedin-job-postings` (README's own documented fallback): checked
+    directly, turned out to be another single-scrape snapshot (half its 124k rows
+    dated within 2 days) — same problem, not usable for trend.
+  - Adzuna's historical API: real 24-month history, but salary-by-category, not
+    skill-keyword vacancy counts — not directly useful without much more work.
+  - Several Kaggle "20XX-2026 AI/data job market" datasets found by search are
+    **synthetic**: `shree0910/ai-and-data-science-job-market-dataset-20202026`
+    checked directly and has rows dated **November 2026** (in the future) with
+    only boolean skill flags (`skills_python`, `skills_ml`, etc.) and no real
+    description text. Treat any of this genre of dataset as suspect until
+    verified by direct download — don't trust the listing description alone.
+  - `atharvasoundankar/ai-job-market-global-2026`: verified real — sourced from
+    the live Adzuna + USAJobs APIs, genuine `posted_date` values reaching
+    2026-02-22. But small (5,773 rows, 3,750 unique after dedup — the source
+    repeats a posting once per city), description text truncated to ~500 chars
+    (Adzuna's free-tier snippet limit, not an artifact we introduced), and 79% of
+    it concentrated in its last 3 months — a recent-months snapshot, not deep
+    history, and despite an advertised weekly refresh it hadn't moved past Feb
+    2026 as of when checked (mid-2026) — the update pipeline may have stalled.
+  - **Decision (user's explicit choice among three presented options)**: hybrid —
+    use the Kaggle snapshot as a historical base (`src/ingest_recent.py`) and
+    live-fetch via the Adzuna API (`src/fetch_adzuna.py`) to extend the series
+    forward from here. This requires the user to register their own free Adzuna
+    API account (https://developer.adzuna.com/) — an account-creation step no
+    one else can do — and save credentials to `~/.adzuna/credentials`; until
+    that's done, `results/skill_trend_recent_by_month.csv` only reflects the
+    Kaggle base (3,513 postings, 9 usable months, May 2025-Feb 2026, months under
+    50 postings dropped as too thin to trust).
+  - **This recent-data corpus's job-title mix differs from the primary dataset's**
+    (skews Data Scientist / AI Engineer / ML Engineer, vs. the primary dataset's
+    broader data-science scope) — e.g. AWS/Azure read 0-3% here vs. 16-21% in the
+    primary ranking. **Don't treat these two corpora's absolute percentages as
+    comparable** — use the primary dataset for current-demand ranking, this one
+    only for within-corpus month-over-month movement.
+
 ## Project timeline (rough outline)
 
 Roughly chronological, for orientation rather than a changelog (see `git log` for
@@ -126,13 +165,20 @@ exact history):
 6. **Taxonomy expansion round 2** — curated the LLM pipeline's novel-candidate bucket
    (~19.8k unique spans) down to ~65 clear additions; taxonomy 90 → 157 entries.
    Statistical model retrained and rule-based/LLM pipelines rerun against it.
-7. **Cross-method comparison + relationship analysis** (current) —
+7. **Cross-method comparison + relationship analysis** —
    `src/combine_rankings.py` merges all three methods' rankings into one table and
    surfaces where they agree/diverge; `src/analyze_trends.py` adds skill co-occurrence
    and a first pass at posting-date trend (see its caveat: the dataset's `first_seen`
-   only spans ~6 days, so this isn't a real trend signal yet).
-8. **Not yet started** — deciding and acting on an actual next personal project based
-   on the ranked skill demand output (the project's actual end goal).
+   only spans ~6 days, so this isn't a real trend signal).
+8. **Recent-data trend pipeline** (current) — `src/ingest_recent.py` +
+   `src/fetch_adzuna.py` + `src/analyze_recent_trend.py` build a real
+   month-over-month skill trend from actively-sourced 2025-2026 data, since the
+   user is already committed to two other projects and wants ongoing signal on
+   what to pick up next rather than deciding right now. Blocked on the user
+   registering their own Adzuna API key to start extending the series forward.
+9. **Not yet started** — deciding and acting on an actual next personal project based
+   on the ranked skill demand output (the project's actual end goal), once the
+   trend pipeline has had time to accumulate enough live data to be useful.
 
 ## Conventions
 
