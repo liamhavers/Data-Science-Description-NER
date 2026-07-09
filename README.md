@@ -132,11 +132,18 @@ cross-checked, not taken on faith:
 - `results/skill_trend_recent_by_month.csv` (`src/analyze_recent_trend.py`) is the
   real trend signal — the recent corpus's postings run through the same rule-based
   ruler, grouped by month, with any month under 50 postings dropped as too thin to
-  trust. First run (recent-corpus base data only, before any live Adzuna pulls):
-  3,513 postings across 9 usable months (May 2025 - Feb 2026), showing genuine
-  movement — Machine Learning holding steady ~15-24%, Generative AI/LLMs
-  fluctuating 3-11%, Computer Vision drifting down from ~8-9% toward ~1-3% by late
-  2025.
+  trust. The top-15-by-frequency skills are charted, minus a small excluded set of
+  umbrella terms (`GENERIC_SKILLS` in the module — Machine Learning, Artificial
+  Intelligence, NLP, Statistics, Big Data, Agile, DevOps, Business Intelligence,
+  Data Mining) that show up in nearly every posting regardless of actual focus and
+  would otherwise dominate the chart by raw count without saying anything
+  differentiating. With the Kaggle base data plus live Adzuna pulls folded in:
+  8,151 postings across 14 usable months (May 2025 - July 2026), showing genuine
+  movement — Computer Vision declining from ~6-7% (mid-2025) to ~1% by 2026,
+  Generative AI trending up toward ~5-7%, Snowflake/Databricks/CI-CD each showing
+  distinct, smaller patterns. Rendered as a line chart by `src/plot_trends.py` ->
+  `results/skill_trend_recent_by_month.png` (a table of 15 skills x 14 months is
+  hard to eyeball for direction otherwise).
 - `results/novel_skill_candidates.csv` and `results/novel_skill_candidates_llm.csv`
   are worth periodically skimming by hand to find real terms worth adding to the
   taxonomy.
@@ -155,10 +162,15 @@ cross-checked, not taken on faith:
 .venv/bin/python src/analyze_trends.py     # co-occurrence + posting-date trend -> results/skill_cooccurrence.csv, results/skill_trend_by_day.csv
 
 # Recent corpus -> trend-over-time
-.venv/bin/python src/ingest_recent.py         # download recent Kaggle snapshot -> data/processed/ai_jobs_recent.csv
+.venv/bin/python src/ingest_recent.py         # download recent Kaggle snapshot -> data/processed/ai_jobs_recent.csv (one-off, run once)
 .venv/bin/python src/fetch_adzuna.py          # live-fetch current postings (needs your own Adzuna API key) -> data/processed/adzuna_pulls.jsonl
 .venv/bin/python src/analyze_recent_trend.py  # month-over-month skill trend -> results/skill_trend_recent_by_month.csv
+.venv/bin/python src/plot_trends.py           # render the trend as a line chart -> results/skill_trend_recent_by_month.png
 ```
+
+The last three of those are chained together in `scripts/run_weekly.sh` and run automatically every Monday
+via cron (`crontab -l` to see the entry) — see `CLAUDE.md` for the exact line. Run the script manually any
+time with `./scripts/run_weekly.sh`; output is appended to `logs/` (gitignored).
 
 ## Pipeline
 
@@ -183,13 +195,12 @@ snapshot corpus (one scrape)         recent corpus (Kaggle base + live Adzuna pu
 All three extraction methods (rule-based spaCy, statistical spaCy, local-LLM via
 Ollama) are working end-to-end and cross-compared on the snapshot corpus, with a
 combined ranking and co-occurrence view on top. The recent-data trend pipeline is
-running and already shows real month-over-month movement (May 2025-Feb 2026), though
-still thin before late 2025 and not yet extended by any live Adzuna pulls. Open
-items: registering an Adzuna API key to start extending the trend series forward via
-`src/fetch_adzuna.py`, entity normalization beyond the taxonomy's own id-grouping,
-and — once the trend pipeline has accumulated enough live data to be worth
-consulting — actually picking the next personal project (see `CLAUDE.md` for the
-full project timeline).
+live and automated: `scripts/run_weekly.sh` (fetch → re-aggregate → re-plot) runs
+every Monday via cron, extending `results/skill_trend_recent_by_month.csv` and its
+chart forward on their own — no manual step required going forward. Open items:
+entity normalization beyond the taxonomy's own id-grouping, and — once the trend
+pipeline has accumulated enough live data to be worth consulting — actually picking
+the next personal project (see `CLAUDE.md` for the full project timeline).
 
 ## Project layout
 
@@ -209,7 +220,11 @@ src/             pipeline code
   ingest_recent.py        downloads the recent (real, dated into 2026) Kaggle snapshot -> data/processed/
   fetch_adzuna.py         live-fetches current postings via the Adzuna API (needs your own key) -> data/processed/
   analyze_recent_trend.py month-over-month skill trend over the recent corpus -> results/
+  plot_trends.py          renders the month-over-month trend as a line chart -> results/
+scripts/
+  run_weekly.sh    fetch -> re-aggregate -> re-plot, run every Monday via cron (see CLAUDE.md)
+logs/            cron output (gitignored)
 results/         skill demand rankings, per-posting extractions, novel skill candidates,
                  combined cross-method ranking, co-occurrence, and the real
-                 month-over-month trend from the recent-data pipeline
+                 month-over-month trend (CSV + chart) from the recent-data pipeline
 ```

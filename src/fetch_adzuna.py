@@ -110,23 +110,35 @@ def check_budget(timestamps: list[float]) -> None:
             )
 
 
+HTTP_RETRY_BACKOFF = [5, 15, 30]  # seconds -- transient errors (5xx, timeouts) shouldn't abort a whole run
+
+
 def fetch_page(app_id: str, app_key: str, country: str, what: str, page: int, call_log: list[float]) -> list[dict]:
     check_budget(call_log)
-    resp = requests.get(
-        BASE_URL.format(country=country, page=page),
-        params={
-            "app_id": app_id,
-            "app_key": app_key,
-            "what": what,
-            "results_per_page": RESULTS_PER_PAGE,
-            "content-type": "application/json",
-        },
-        timeout=30,
-    )
-    resp.raise_for_status()
-    call_log.append(time.time())
-    save_call_log(call_log)
-    return resp.json().get("results", [])
+    for backoff in [*HTTP_RETRY_BACKOFF, None]:
+        try:
+            resp = requests.get(
+                BASE_URL.format(country=country, page=page),
+                params={
+                    "app_id": app_id,
+                    "app_key": app_key,
+                    "what": what,
+                    "results_per_page": RESULTS_PER_PAGE,
+                    "content-type": "application/json",
+                },
+                timeout=30,
+            )
+            resp.raise_for_status()
+            call_log.append(time.time())
+            save_call_log(call_log)
+            return resp.json().get("results", [])
+        except requests.exceptions.RequestException as e:
+            if backoff is None:
+                print(f"  giving up on {country}/{what} page {page} after {len(HTTP_RETRY_BACKOFF) + 1} attempts: {e}")
+                return []
+            print(f"  transient error on {country}/{what} page {page} ({e}), retrying in {backoff}s")
+            time.sleep(backoff)
+    return []
 
 
 def main() -> None:

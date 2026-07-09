@@ -129,19 +129,67 @@ Key decisions:
   - **Decision (user's explicit choice among three presented options)**: hybrid —
     use the Kaggle snapshot as a historical base (`src/ingest_recent.py`) and
     live-fetch via the Adzuna API (`src/fetch_adzuna.py`) to extend the series
-    forward from here. This requires the user to register their own free Adzuna
-    API account (https://developer.adzuna.com/) — an account-creation step no
-    one else can do — and save credentials to `.adzuna/credentials` (repo root,
-    gitignored); until that's done, `results/skill_trend_recent_by_month.csv`
-    only reflects the
-    Kaggle base (3,513 postings, 9 usable months, May 2025-Feb 2026, months under
-    50 postings dropped as too thin to trust).
+    forward from here. Required the user to register their own free Adzuna API
+    account (https://developer.adzuna.com/) — done; credentials live in
+    `.adzuna/credentials` (repo root, gitignored — note this is a different
+    convention from `~/.kaggle/access_token`'s home-directory location, because
+    the user had already created the credentials file at the repo-root path
+    before it came up, and it's safely gitignored either way).
   - **This recent-data corpus's job-title mix differs from the primary dataset's**
     (skews Data Scientist / AI Engineer / ML Engineer, vs. the primary dataset's
-    broader data-science scope) — e.g. AWS/Azure read 0-3% here vs. 16-21% in the
+    broader data-science scope) — e.g. AWS/Azure read far lower here than in the
     primary ranking. **Don't treat these two corpora's absolute percentages as
     comparable** — use the primary dataset for current-demand ranking, this one
     only for within-corpus month-over-month movement.
+  - **Rate limiting (`src/fetch_adzuna.py`)**: Adzuna's terms of service
+    (developer.adzuna.com/docs/terms_of_service) cap free-tier usage at 25
+    hits/minute, 250/day, 1000/week, 2500/month. The script paces calls at one
+    every 3s (~20/min) and tracks a persisted call log
+    (`data/processed/adzuna_usage_log.json`) against all three longer windows,
+    each shaded to 90% of the real limit, stopping itself early rather than risk
+    the account — this matters because the script is meant to be re-run
+    routinely (see cron below), so usage accumulates across runs, not just
+    within one.
+  - **Bugs caught while first running this for real**: (1) a transient 502 from
+    Adzuna's own servers crashed the whole run under `set -euo pipefail` in
+    `scripts/run_weekly.sh` — fixed by retrying transient `requests` errors with
+    backoff (5s/15s/30s) inside `fetch_page`, giving up on just that one
+    page/query rather than the whole script. (2) `src/analyze_recent_trend.py`'s
+    `load_corpus()` originally parsed the combined (base CSV + live JSONL)
+    `posted_date` column in one `pd.to_datetime(..., errors="coerce")` call —
+    pandas infers a date format from a string column's first values and coerces
+    every non-matching row to NaT, so with the base CSV's plain `YYYY-MM-DD`
+    dates first, **every one of the 4,678 live-fetched postings silently
+    disappeared** (parsed to NaT, dropped) despite the script printing that it
+    included them. Fixed by parsing each source's dates separately before
+    concatenating. **Lesson: never parse dates across concatenated sources in
+    one pass if their string formats might differ — parse each source first.**
+  - **Automation**: `scripts/run_weekly.sh` chains
+    `fetch_adzuna.py` → `analyze_recent_trend.py` → `src/plot_trends.py` (the
+    last renders the trend as a line chart, `results/skill_trend_recent_by_month.png`
+    — a table of skills x months is hard to eyeball for direction). Runs every
+    Monday 17:00 via cron (same time as the user's pre-existing `quantProject`
+    entry; `crontab -l` to inspect). Logs to `logs/` (gitignored). Cron + systemd
+    are confirmed actually running in this WSL2 instance (checked
+    directly, not assumed), so this should fire reliably as long as the WSL2 VM
+    itself is up at that time — same host-sleep caveat as the original LLM
+    extraction run, not re-solved here.
+  - **Chart was initially too generic to be useful**: the first version picked
+    the top-12 skills by raw mention count, which put broad umbrella terms
+    (Machine Learning, Artificial Intelligence, NLP, ...) front and center —
+    these show up in nearly every posting regardless of what the role actually
+    focuses on, so they dominate the chart by volume without differentiating
+    anything, and crowd out specific tools (PyTorch, Snowflake, Databricks) that
+    are the actually-interesting trend signal. Fixed in
+    `src/analyze_recent_trend.py` with an explicit `GENERIC_SKILLS` exclusion set
+    (Machine Learning, Artificial Intelligence, Deep Learning, NLP, Statistics,
+    Big Data, Agile, DevOps, Business Intelligence, Data Mining) applied before
+    picking the top skills to chart (raised to top-15 to compensate) — these
+    terms are still counted normally everywhere else (`skill_counts.csv`,
+    `combine_rankings.py`), this exclusion is chart-selection-only. **If future
+    additions to the chart look generic again, extend this set rather than
+    increasing TOP_N_SKILLS** — more of the same umbrella terms isn't more
+    signal.
 
 ## Project timeline (rough outline)
 
@@ -171,15 +219,21 @@ exact history):
    surfaces where they agree/diverge; `src/analyze_trends.py` adds skill co-occurrence
    and a first pass at posting-date trend (see its caveat: the dataset's `first_seen`
    only spans ~6 days, so this isn't a real trend signal).
-8. **Recent-data trend pipeline** (current) — `src/ingest_recent.py` +
+8. **Recent-data trend pipeline** — `src/ingest_recent.py` +
    `src/fetch_adzuna.py` + `src/analyze_recent_trend.py` build a real
    month-over-month skill trend from actively-sourced 2025-2026 data, since the
    user is already committed to two other projects and wants ongoing signal on
-   what to pick up next rather than deciding right now. Blocked on the user
-   registering their own Adzuna API key to start extending the series forward.
-9. **Not yet started** — deciding and acting on an actual next personal project based
-   on the ranked skill demand output (the project's actual end goal), once the
-   trend pipeline has had time to accumulate enough live data to be useful.
+   what to pick up next rather than deciding right now.
+9. **Automation + visualization** (current) — Adzuna credentials registered and
+   live-fetch confirmed working (caught and fixed a date-parsing bug that had
+   been silently dropping every live-fetched posting, plus a transient-HTTP-error
+   crash — see above); `scripts/run_weekly.sh` now runs the fetch → aggregate →
+   `src/plot_trends.py` chain automatically every Monday via cron, so the trend
+   series and its chart extend themselves without a manual step.
+10. **Not yet started** — deciding and acting on an actual next personal project
+    based on the ranked skill demand output (the project's actual end goal),
+    once the trend pipeline has had time to accumulate enough live data to be
+    useful.
 
 ## Conventions
 

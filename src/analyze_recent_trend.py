@@ -22,7 +22,18 @@ BASE_PATH = DATA_DIR / "ai_jobs_recent.csv"
 ADZUNA_PATH = DATA_DIR / "adzuna_pulls.jsonl"
 
 MIN_POSTINGS_PER_MONTH = 50
-TOP_N_SKILLS = 12
+TOP_N_SKILLS = 15
+
+# Broad umbrella terms that show up in nearly every AI/data posting regardless
+# of what the role actually focuses on -- by raw frequency they crowd out more
+# specific, differentiating skills (PyTorch, Snowflake, Databricks, ...)
+# without telling you anything actionable. Excluded from the trend/chart only;
+# still counted normally everywhere else (skill_counts.csv, combine_rankings.py).
+GENERIC_SKILLS = {
+    "Machine Learning", "Artificial Intelligence", "Deep Learning", "NLP",
+    "Statistics", "Big Data", "Agile", "DevOps", "Business Intelligence",
+    "Data Mining",
+}
 
 
 def load_corpus() -> pd.DataFrame:
@@ -62,6 +73,7 @@ def main() -> None:
 
     usable = df[df["month"].isin(usable_months)]
     all_skills = pd.Series([s for skills in usable["skill_set"] for s in skills]).value_counts()
+    all_skills = all_skills[~all_skills.index.isin(GENERIC_SKILLS)]
     top_skills = all_skills.head(TOP_N_SKILLS).index.tolist()
 
     rows = []
