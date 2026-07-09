@@ -131,8 +131,9 @@ Key decisions:
     live-fetch via the Adzuna API (`src/fetch_adzuna.py`) to extend the series
     forward from here. This requires the user to register their own free Adzuna
     API account (https://developer.adzuna.com/) — an account-creation step no
-    one else can do — and save credentials to `~/.adzuna/credentials`; until
-    that's done, `results/skill_trend_recent_by_month.csv` only reflects the
+    one else can do — and save credentials to `.adzuna/credentials` (repo root,
+    gitignored); until that's done, `results/skill_trend_recent_by_month.csv`
+    only reflects the
     Kaggle base (3,513 postings, 9 usable months, May 2025-Feb 2026, months under
     50 postings dropped as too thin to trust).
   - **This recent-data corpus's job-title mix differs from the primary dataset's**
